@@ -85,9 +85,9 @@ namespace MyInventory.GtkGui {
 				return false;
 			}
 			if(iter.Stamp != Stamp){
-				ErrorOut("INVALID ITER STAMP");				
-				ErrorOut("View Stamp: "+Stamp.ToString());
-				ErrorOut("Iter Stamp: "+iter.Stamp.ToString());
+				Console.WriteLine("INVALID ITER STAMP");				
+				Console.WriteLine("View Stamp: "+Stamp.ToString());
+				Console.WriteLine("Iter Stamp: "+iter.Stamp.ToString());
 				return false;
 			}
 			return true;
@@ -122,7 +122,7 @@ namespace MyInventory.GtkGui {
 	
 	    public TreePath GetPath(TreeIter iter){
 			ErrorOut("GETPATH");
-			if(!IsIterUseable(iter)){
+			if(IsIterUseable(iter)){
 				return GetIterNode(iter).Path;
 			}
 			return TreePath.NewFirst();

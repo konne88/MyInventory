@@ -21,9 +21,7 @@ namespace MyInventory.Model
 		}
 		
 		public void RemoveItemAt(int[] path) 
-		{
-			Console.WriteLine(path.Length);
-			
+		{			
 			ObservableCollection<ObservableTreeNode<T>> node = this;
 			for(int i=0 ; i<path.Length-1 ; ++i)
 				node = node[path[i]];

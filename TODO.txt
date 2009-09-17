@@ -1,2 +1,2 @@
-- Adding new tags to the taglist doesn't work
-- Add "remove image" action
+  - Adding new tags to the taglist doesn't work
+x - Add "remove image" action

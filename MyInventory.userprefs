@@ -1,21 +1,28 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Model/Basics/IdObject.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GtkGui/Items/ItemEditBox.cs" ctype="Workbench">
     <Files>
       <File FileName="GtkGui/Main.cs" Line="12" Column="71" />
       <File FileName="GtkGui/GtkSettings.cs" Line="9" Column="44" />
       <File FileName="Model/Inventory.cs" Line="18" Column="16" />
       <File FileName="Model/Items/Image.cs" Line="12" Column="29" />
-      <File FileName="Model/Items/Images.cs" Line="238" Column="4" />
+      <File FileName="Model/Items/Images.cs" Line="268" Column="15" />
       <File FileName="Model/Basics/IdCollection.cs" Line="9" Column="24" />
       <File FileName="Model/Basics/IdObject.cs" Line="12" Column="16" />
+      <File FileName="GtkGui/Items/ItemEditBox.cs" Line="390" Column="40" />
+      <File FileName="GtkGui/Items/ItemsBox.cs" Line="149" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GtkGui" expanded="True">
-            <Node name="References" selected="True" />
+            <Node name="Items" expanded="True">
+              <Node name="ItemEditBox.cs" selected="True" />
+            </Node>
           </Node>
-          <Node name="Model" expanded="True" />
+          <Node name="Model" expanded="True">
+            <Node name="Basics" expanded="True" />
+            <Node name="Items" expanded="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">

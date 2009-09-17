@@ -61,7 +61,7 @@ namespace MyInventory.GtkGui {
 			Gtk.Action addImageAction = new Gtk.Action("addImage","Add Image...","",Stock.Open);
 			addImageAction.Activated += OnAddItemImage;
 			Gtk.Action removeImageAction = new Gtk.Action("removeImage","Remove Image","",Stock.Remove);
-			//removeImageAction.Activated += OnRemoveItemImage;
+			removeImageAction.Activated += OnRemoveItemImage;
 			Gtk.Action imageAction = new Gtk.Action("itemImage","Image");
 			
 			ActionGroup imageActionGroup = new ActionGroup("itemImage");
@@ -368,6 +368,21 @@ namespace MyInventory.GtkGui {
 			}
 			//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 			fc.Destroy();
+		}
+		
+		private void OnRemoveItemImage(object widget, EventArgs args){
+			// get the currently selected item
+			TreeModel filter;
+			TreeIter iter;
+			if(itemEditImages.Selection.GetSelected(out filter, out iter) == false){
+				Console.WriteLine("No image selected that could be deleted");
+				return;
+			}
+			TreePath path = filter.GetPath(iter);
+			Model.Image img = (Model.Image)filter.GetValue(iter, 0);
+			
+			currentlyEditedItem.Images.Positions.RemoveAt(path.Indices[path.Depth-1]);
+			currentlyEditedItem.Images.Remove(img);
 		}
 		
 		private void OnItemImageMemoEditingStarted(object o, EditingStartedArgs args) {
