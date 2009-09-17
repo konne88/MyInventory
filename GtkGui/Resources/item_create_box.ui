@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkVBox" id="itemCreateBox">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkHBox" id="createItemIdBox">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkSpinButton" id="createItemId">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">&#x25CF;</property>
+            <property name="adjustment">idAdjustment</property>
+            <property name="numeric">True</property>
+            <signal name="input" handler="OnCreateIdInput"/>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="createItemType">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkAlignment" id="createItemButtonAlign">
+        <property name="visible">True</property>
+        <property name="yscale">0</property>
+        <property name="top_padding">6</property>
+        <property name="bottom_padding">6</property>
+        <child>
+          <object class="GtkButton" id="createItemButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="OnCreateItemDone"/>
+            <child>
+              <object class="GtkHBox" id="CreateItemButtonBox">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkImage" id="CreateItemButtonImage">
+                    <property name="visible">True</property>
+                    <property name="xalign">1</property>
+                    <property name="stock">gtk-add</property>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="CreateItemButtonLabel">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="xpad">4</property>
+                    <property name="label" translatable="yes">Create item</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="idAdjustment">
+    <property name="value">1</property>
+    <property name="lower">1</property>
+    <property name="upper">100000000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+</interface>

@@ -1,0 +1,36 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Model/Items/Images.cs" ctype="Workbench">
+    <Files>
+      <File FileName="GtkGui/Main.cs" Line="13" Column="2" />
+      <File FileName="GtkGui/GtkSettings.cs" Line="9" Column="44" />
+      <File FileName="Model/Inventory.cs" Line="18" Column="16" />
+      <File FileName="Model/Items/Image.cs" Line="12" Column="29" />
+      <File FileName="Model/Items/Images.cs" Line="238" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="GtkGui" expanded="True">
+            <Node name="Items" expanded="True" />
+            <Node name="Print" expanded="True" />
+          </Node>
+          <Node name="Model" expanded="True">
+            <Node name="Items" expanded="True">
+              <Node name="Images.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True">
+          <Node name="GtkGui" expanded="True" selected="True" />
+          <Node name="Model" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+</Properties>

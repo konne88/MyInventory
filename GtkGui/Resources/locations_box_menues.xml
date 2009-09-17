@@ -1,0 +1,8 @@
+<ui>
+	<popup name="locationPopup">
+		<menuitem action="createLocation"/>
+		<menuitem action="deleteLocation"/>
+		<separator/>
+		<menuitem action="gotoLocationItem"/>
+	</popup>
+</ui>

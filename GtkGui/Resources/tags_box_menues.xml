@@ -1,0 +1,6 @@
+<ui>
+	<popup name="tagPopup">
+		<menuitem action="createTag"/>
+		<menuitem action="deleteTag"/>
+	</popup>
+</ui>

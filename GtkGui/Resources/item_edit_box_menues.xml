@@ -1,0 +1,10 @@
+<ui>
+	<popup name="itemImagePopup">
+		<menuitem action="addImage"/>
+		<menuitem action="removeImage"/>
+	</popup>
+	<popup name="itemTagPopup">
+		<menuitem action="addTag"/>
+		<menuitem action="removeTag"/>
+	</popup>
+</ui>

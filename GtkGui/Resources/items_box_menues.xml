@@ -1,0 +1,6 @@
+<ui>
+    <popup name="itemPopup">
+		<menuitem action="createItem"/>
+		<menuitem action="deleteItem"/>
+	</popup>
+</ui>

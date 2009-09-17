@@ -1,0 +1,28 @@
+<ui>
+	<menubar name="menuBar">
+		<menu action="file">
+			<menuitem action="saveFile" />
+			<separator/>
+			<menuitem action="quit" />
+		</menu>
+		<menu action="item">
+			<menuitem action="createItem"/>
+			<menuitem action="deleteItem"/>
+		</menu>
+		<menu action="location">
+			<menuitem action="createLocation"/>
+			<menuitem action="deleteLocation"/>
+		</menu>
+		<menu action="tag">
+			<menuitem action="createTag"/>
+			<menuitem action="deleteTag"/>
+		</menu>
+	</menubar>
+	<toolbar name="toolbar">
+		<toolitem action="saveFile"/>
+		<separator/>
+		<toolitem action="createItem"/>
+		<toolitem action="createLocation"/>
+		<toolitem action="createTag"/>
+	</toolbar>
+</ui>

@@ -1,0 +1,2 @@
+- Adding new tags to the taglist doesn't work
+- Add "remove image" action

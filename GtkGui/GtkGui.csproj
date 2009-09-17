@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8EA1E4F1-6E26-428C-912A-6936F9E5D190}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>MyInventory</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <Execution>
+      <Execution clr-version="Net_2_0" />
+    </Execution>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <Execution>
+      <Execution clr-version="Net_2_0" />
+    </Execution>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\window_menues.xml">
+      <LogicalName>window_menues.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\calendar.png">
+      <LogicalName>calendar.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\degressive.png">
+      <LogicalName>degressive.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\estate.png">
+      <LogicalName>estate.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\item.png">
+      <LogicalName>item.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\linear.png">
+      <LogicalName>linear.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\location.png">
+      <LogicalName>location.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\product.png">
+      <LogicalName>product.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\progressive.png">
+      <LogicalName>progressive.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\room.png">
+      <LogicalName>room.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tag.png">
+      <LogicalName>tag.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\window.ui">
+      <LogicalName>window.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\item_edit_box.ui">
+      <LogicalName>item_edit_box.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\items_box.ui">
+      <LogicalName>items_box.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\purchase_date_picker.ui">
+      <LogicalName>purchase_date_picker.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\item_create_box.ui">
+      <LogicalName>item_create_box.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\locations_box.ui">
+      <LogicalName>locations_box.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags_box.ui">
+      <LogicalName>tags_box.ui</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\items_box_menues.xml">
+      <LogicalName>items_box_menues.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\item_edit_box_menues.xml">
+      <LogicalName>item_edit_box_menues.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\locations_box_menues.xml">
+      <LogicalName>locations_box_menues.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags_box_menues.xml">
+      <LogicalName>tags_box_menues.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\print_box.ui">
+      <LogicalName>print_box.ui</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="Basics\EnumerableNotifyModel.cs" />
+    <Compile Include="Items\ItemsModel.cs" />
+    <Compile Include="Items\ItemsBox.cs" />
+    <Compile Include="Items\ItemEditBox.cs" />
+    <Compile Include="Basics\NotebookEx.cs" />
+    <Compile Include="Basics\StringEx.cs" />
+    <Compile Include="Items\PurchaseDatePicker.cs" />
+    <Compile Include="Items\ItemCreateBox.cs" />
+    <Compile Include="Locations\LocationsBox.cs" />
+    <Compile Include="Locations\LocationsModel.cs" />
+    <Compile Include="Basics\ObservableTreeModel.cs" />
+    <Compile Include="Basics\ObservableCollectionModel.cs" />
+    <Compile Include="Window.cs" />
+    <Compile Include="Items\GtkMemoryImage.cs" />
+    <Compile Include="GtkSettings.cs" />
+    <Compile Include="Items\ImagesModel.cs" />
+    <Compile Include="Basics\DrawDescriptionEntryEvent.cs" />
+    <Compile Include="Basics\ShowMeEvent.cs" />
+    <Compile Include="Basics\ListNotifyModel.cs" />
+    <Compile Include="Tags\TagsBox.cs" />
+    <Compile Include="Tags\TagsModel.cs" />
+    <Compile Include="Items\ItemTagsModel.cs" />
+    <Compile Include="Print\PrintBox.cs" />
+    <Compile Include="Print\Barcode.cs" />
+    <Compile Include="Print\Label.cs" />
+    <Compile Include="Basics\GotoEvents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Posix" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Mono.Cairo" />
+    <Reference Include="gdk-sharp, Version=2.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="WindowsBase, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\usr\lib\mono\gac\WindowsBase\3.0.0.0__31bf3856ad364e35\WindowsBase.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\usr\lib\mono\gac\System.Core\3.5.0.0__b77a5c561934e089\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="gnome-sharp, Version=2.20.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gnomedesktop-sharp, Version=2.20.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{89558522-6EF9-4537-BBE6-924D95ED8562}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Basics\" />
+    <Folder Include="Locations\" />
+    <Folder Include="Tags\" />
+    <Folder Include="Print\" />
+  </ItemGroup>
+</Project>

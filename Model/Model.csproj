@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{89558522-6EF9-4537-BBE6-924D95ED8562}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Model</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Inventory.cs" />
+    <Compile Include="Items\Images.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\Items.cs" />
+    <Compile Include="Basics\ObservableIdObject.cs" />
+    <Compile Include="Items\Estate.cs" />
+    <Compile Include="Items\Room.cs" />
+    <Compile Include="Items\Product.cs" />
+    <Compile Include="Items\Depreciation.cs" />
+    <Compile Include="Items\Image.cs" />
+    <Compile Include="Items\Descriptions.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Basics\IdCollection.cs" />
+    <Compile Include="Basics\IdObject.cs" />
+    <Compile Include="Basics\PositionableIdCollection.cs" />
+    <Compile Include="Locations\Location.cs" />
+    <Compile Include="Locations\Locations.cs" />
+    <Compile Include="Basics\ObservableTree.cs" />
+    <Compile Include="Basics\ObservableTreeNode.cs" />
+    <Compile Include="Items\MemoryImage.cs" />
+    <Compile Include="Items\Labels.cs" />
+    <Compile Include="Basics\RelativeTimeSpan.cs" />
+    <Compile Include="Tags\Tag.cs" />
+    <Compile Include="Tags\Tags.cs" />
+    <Compile Include="Items\ItemTags.cs" />
+    <Compile Include="Items\ItemTag.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Items\" />
+    <Folder Include="Basics\" />
+    <Folder Include="Locations\" />
+    <Folder Include="Tags\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\usr\lib\mono\gac\WindowsBase\3.0.0.0__31bf3856ad364e35\WindowsBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
