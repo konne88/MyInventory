@@ -67,7 +67,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="WindowsBase, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\usr\lib\mono\gac\WindowsBase\3.0.0.0__31bf3856ad364e35\WindowsBase.dll</HintPath>
+      <HintPath>..\Libs\WindowsBase.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ namespace MyInventory.GtkGui
 	    {
 			Gtk.Application.Init ();		
 			
-			Inventory inv = Inventory.Load("inventory",new GtkSettings());
+			Inventory inv = Inventory.Load("/home/konne/.my_inventory/inventory",new GtkSettings());
 	
 			Window w = new Window (inv);
 			w.ShowAll ();
