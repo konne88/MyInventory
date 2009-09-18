@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MyInventory.Model
@@ -11,6 +12,19 @@ namespace MyInventory.Model
 		public ObservableTree()
 		{}
 		
+		public T[] GetAncestorsOf(int[] path){
+			List<T> ancestors = new List<T>();
+			ObservableCollection<ObservableTreeNode<T>> list = this;
+						
+			for(int depth=0 ; depth<path.Length ; ++depth){
+				ObservableTreeNode<T> node = list[path[depth]];
+				ancestors.Add(node.Header);
+				list = node;
+			}
+			
+			return ancestors.ToArray();
+		}
+				
 		public void InsertItemAt(int[] path, ObservableTreeNode<T> item) 
 		{
 			ObservableCollection<ObservableTreeNode<T>> node = this;

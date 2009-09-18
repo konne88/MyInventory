@@ -8,11 +8,24 @@ using System.Collections.Generic;
 
 namespace MyInventory.Model
 {
+	public class TagItemReferenceException : ApplicationException 
+	{
+		public TagItemReferenceException(Item[] refs)
+		: base("A tag can't be deleted since some items are still referencing it.")
+		{
+			Data["ItemReferences"] = refs;
+		}
+	}
+	
 	public class Tags : PositionableIdCollection<Tag,ObservableTree<Tag>>
 	{
 		public Tags(Inventory inventory)
 		{
 			Inventory = inventory;
+		}
+		
+		public Tag New() {
+			return New(CreateUniqueTagName());
 		}
 		
 		public Tag New(string name) {
@@ -26,6 +39,82 @@ namespace MyInventory.Model
 			return t;
 		}
 		
+		public void TestRemove(Tag tag){
+			if(!object.ReferenceEquals(tag.Tags,this))
+				throw new ArgumentException("Actions were taken on a tag using an tag container the tag isn't part of.");
+			
+			List<Item> refs = new List<Item>();
+			foreach(Item item in Inventory.Items){
+				foreach(ItemTag it in item.Tags){
+					if(object.ReferenceEquals(it.Tag,tag)){
+						refs.Add(item);
+						break;
+					}
+				}
+			}
+			
+			if(refs.Count != 0)
+				throw new TagItemReferenceException(refs.ToArray());
+		}
+		
+		public bool CanRemove(Tag tag) {
+			try {
+				TestRemove(tag);
+			} catch(TagItemReferenceException) {
+				return false;
+			}
+		
+			return true;
+		}
+		
+		public override void Remove(Tag tag)
+		{
+			TestRemove(tag);
+			
+			base.Remove(tag);
+		}
+		
+		public bool CanTagBecomePathsChild(Tag tag, int[] parentPath){
+			// This is only true if no item has the parent or ancestors of the parent,
+			// and also the tag added to itsself. See ItemTags.GetUnusedTags()
+			
+			Tag[] ancestors = Positions.GetAncestorsOf(parentPath);
+			
+			foreach(Item i in Inventory.Items){
+				foreach(ItemTag it1 in i.Tags){
+					// if the tag is part of the item ...
+					if(object.ReferenceEquals(it1.Tag,tag)){
+						// then we can check for each ancestor
+						// if it is also a part of the item
+						foreach(Tag a in ancestors){
+							foreach(ItemTag it2 in i.Tags){
+								// if that is true,
+								// the tag can not become a child
+								if(object.ReferenceEquals(it2.Tag,a)){
+									return false;
+								}
+							}
+						}				
+						break;
+					}
+				}
+			}
+			
+			return true;
+		}
+		
+		public string CreateUniqueTagName(){
+			// calc a unique tag name
+			string nameAndNum = "Tag";
+			string name = nameAndNum;
+			int i = 1;
+			while(IsTagNameUsed(nameAndNum)){
+				++i;
+				nameAndNum = name+" "+i.ToString();
+			}
+			return nameAndNum;
+		}
+		
 		public Tag GetTagByName(string name){
 			name = name.ToLower();
 			foreach(Tag t in this){
@@ -33,6 +122,15 @@ namespace MyInventory.Model
 					return t;
 			}
 			return null;
+		}
+		
+		public bool IsTagNameUsed(string name){
+			name = name.ToLower();
+			foreach(Tag t in this){
+				if(t.Name.ToLower() == name)
+					return true;
+			}
+			return false;
 		}
 		
 		private void SerializeNode(ObservableTreeNode<Tag> node, XmlWriter writer)

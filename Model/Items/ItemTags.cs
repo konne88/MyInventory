@@ -20,7 +20,8 @@ namespace MyInventory.Model
 			return list.ToArray();
 		}
 		/// <summary>
-		///   Adds all tags to unused, that are not an item of the array or a child/parent of one such items.
+		///   Adds all tags to unused, that are aren't added to the item yet
+		///   or are a child/parent of one such tags.
 		///   E.g. 
 		/// 
 		///   Consider the following tag structure

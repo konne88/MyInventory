@@ -10,7 +10,7 @@ namespace MyInventory.Model
 	{
 		public Locations(Inventory inventory)
 		{
-			_inventory = inventory;
+			Inventory = inventory;
 		}
 			
 		public Location New(Item item)
@@ -25,13 +25,7 @@ namespace MyInventory.Model
 			return l;
 		}
 		
-		private Inventory _inventory;
-		public Inventory Inventory 
-		{
-			get {
-				return _inventory;
-			}
-		}
+		readonly public Inventory Inventory;
 		
 		private void SerializeNode(ObservableTreeNode<Location> node, XmlWriter writer)
 		{

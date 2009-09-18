@@ -74,7 +74,7 @@ namespace MyInventory.GtkGui {
 			return srcModel.GetIterFirst(out someSrcIter) && someSrcIter.Stamp == Stamp;
 		}
 		
-		public bool RowDropPossible(TreePath destPath, SelectionData data)
+		virtual public bool RowDropPossible(TreePath destPath, SelectionData data)
 		{
 			TreeModel srcModel;
 			TreePath srcPath;

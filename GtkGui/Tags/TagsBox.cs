@@ -4,6 +4,7 @@ using Gtk;
 using MyInventory.Model;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace MyInventory.GtkGui {	
     public class TagsBox : HBox, IShowMe
@@ -21,9 +22,9 @@ namespace MyInventory.GtkGui {
 			
 			// create the actions
 			Gtk.Action create = new Gtk.Action("createTag","Create Tag","",Stock.Add);
-			//create.Activated += OnCreateTag;
+			create.Activated += OnCreateTag;
 			Gtk.Action delete = new Gtk.Action("deleteTag","Delete Tag","",Stock.Remove);
-			//delete.Activated += OnDeleteTag;
+			delete.Activated += OnDeleteTag;
 			Gtk.Action action = new Gtk.Action("tag","Tag");
 			
 			ActionGroup group = new ActionGroup("tag");
@@ -37,15 +38,18 @@ namespace MyInventory.GtkGui {
 			tagNameEditColumn = col;
 			col.Title = "Tag";
 			CellRenderer render = new CellRendererText ();
-			//(render as CellRendererText).Editable = true;
-			//(render as CellRendererText).Edited += OnTagNameEdited;
+			(render as CellRendererText).Editable = true;
+			(render as CellRendererText).Edited += OnTagNameEdited;
 			col.PackStart (render, true);
 			col.AddAttribute (render, "text", 1);
 			tagsView.AppendColumn(col);
 			
 			//tagsView.Selection.Changed += OnTagSelectionChanged;
 			tagsView.Reorderable = true;
+			tagsView.EnableSearch = false;
+			tags.CollectionChanged += OnTagCreation;
 			tagsView.Model = new TreeModelAdapter(new TagsModel(Tags));
+			tagsView.Model.RowInserted += OnRowInserted;
 			
 			// create the tagsItemView
 			col = new TreeViewColumn ();
@@ -68,6 +72,129 @@ namespace MyInventory.GtkGui {
 			uiManager.AddUiFromResource("tags_box_menues.xml");
 			tagPopup = (Menu) uiManager.GetWidget("/tagPopup");
 	    }
+				
+		public void OnRowInserted(object o, RowInsertedArgs args){
+			if(ShowMe != null)
+				ShowMe(this,new ShowMeEventArgs());
+			
+			TreeModel model = tagsView.Model;
+			
+			if(TagJustCreated == true){
+				// activate and edit the created tag
+				TreePath path = args.Path;
+				tagsView.ExpandToPath(path);
+				tagsView.SetCursor(path,tagNameEditColumn,true);
+				TagJustCreated = false;
+			}
+		}
+		
+		private void OnCreateTag(object sender, EventArgs args)
+		{
+			// create the new tag
+			Tag tag = Tags.New();
+			ObservableTreeNode<Tag> otn = new ObservableTreeNode<Tag>(tag,null);
+			
+			// add the new item as a sibling of the first selection		
+			TreePath[] selections = tagsView.Selection.GetSelectedRows();
+			TreeModel model = (TreeModel)tagsView.Model;
+			
+			if(selections != null && selections.Length != 0){
+				// something is selected
+				TreePath pos = selections[0];
+				pos.Next();
+				Tags.Positions.InsertItemAt(pos.Indices,otn);
+			}
+			else {
+				// nothing is selected
+				Tags.Positions.Add(otn);
+			}
+		}
+				
+		private void OnTagCreation(object sender, NotifyCollectionChangedEventArgs args) {
+			if(args.Action == NotifyCollectionChangedAction.Add){
+				TagJustCreated = true;
+			}
+		}
+		
+		private void TestDeleteTags(TreePath path){
+			path.Down();
+			
+			TreeModel model = (TreeModel)tagsView.Model;
+			TreeIter iter;
+			while(model.GetIter(out iter,path) == true){
+				// we also need test delete the children of the tag
+				TestDeleteTags(path.Copy());
+				Tag tag = (Tag)model.GetValue(iter,0);
+				// this won't test delete the children
+				Tags.TestRemove(tag);
+				
+				// do move to next, since the item is not removed from the positions yet
+				path.Next();
+			}
+		}
+		
+		private void DeleteTags(TreePath path){
+			path.Down();
+			
+			TreeModel model = (TreeModel)tagsView.Model;
+			TreeIter iter;
+			while(model.GetIter(out iter,path) == true){
+				// we also need delete the children of the tag
+				DeleteTags(path.Copy());
+				Tag tag = (Tag)model.GetValue(iter,0);
+				// this won't delete the children
+				Tags.Remove(tag);
+				
+				// do move to next, since the item is not removed from the positions yet
+				path.Next();
+			}
+		}
+				
+		private void OnDeleteTag(object sender, EventArgs args)
+		{
+			// get the selected location
+			TreeModel model = (TreeModel)tagsView.Model;
+			TreeIter iter;
+			tagsView.Selection.GetSelected(out iter);
+			TreePath path = model.GetPath(iter);
+			Tag tag = (Tag)model.GetValue(iter,0);
+			
+			// now we need to test if the tag or it's child tags
+			// do have references to items, if so we can't delete
+			try {
+				TestDeleteTags(path.Copy());
+				Tags.TestRemove(tag);
+			}
+			catch(TagItemReferenceException){
+				Console.WriteLine("Tag can't be deleted since it is still referenced by Items");
+				return;
+			}
+			
+			// now knowing, that no tags are referenced
+			// we need to delete the children of the tag and
+			// the tag itsseld from Tags
+			DeleteTags(path.Copy());
+			Tags.Remove(tag);
+			
+			// finally remove everything from Positions
+			Tags.Positions.RemoveItemAt(path.Indices);
+		}
+		
+		private void OnTagNameEdited(object o, EditedArgs args) {
+			TreeModel filter = tagsView.Model;
+			TreeIter iter;
+			filter.GetIter (out iter, new TreePath (args.Path));
+			Tag tag = (Tag)filter.GetValue (iter, 0);
+			
+			string name = args.NewText.Trim();
+			
+			try {
+				tag.Name = name;
+			}
+			catch(ArgumentException) {
+				Console.WriteLine("Can't change the tagname cause it is eigther empty or already in use.");
+			}
+		}
 		
 		private void OnTagsViewPopup(object o, WidgetEventArgs args){
 			if(args.Event is Gdk.EventButton){
@@ -83,6 +210,7 @@ namespace MyInventory.GtkGui {
 		public event ShowMeEventHandler ShowMe;
 		
 		private readonly Tags Tags;
+		private bool TagJustCreated = false;
 		
 		private Menu tagPopup;
 		

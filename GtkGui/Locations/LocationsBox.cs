@@ -119,8 +119,7 @@ namespace MyInventory.GtkGui {
 			TreeModelFilter filter = new LocationsFilter ( new LocationsModel( locations ));
 			filter.Model.RowInserted += OnRowInserted;
 			filter.VisibleFunc = new TreeModelFilterVisibleFunc (FilterLocations);
-	 		locationsView.Selection.Mode = SelectionMode.Multiple;
-			locationsView.Model = filter;
+	 		locationsView.Model = filter;
 			locationsView.Reorderable = true;
 			
 			// create the items chooser completion
@@ -255,49 +254,25 @@ namespace MyInventory.GtkGui {
 				path.Next();
 			}
 		}
-		
-		private void DeleteSelectedLocations(TreePath path){
-			if(path == null)
-				path = TreePath.NewFirst();
-			else
-				path.Down();
-			
-			TreeModelFilter filter = (TreeModelFilter)locationsView.Model;
-			TreeIter iter;
-			while(filter.GetIter(out iter,path) == true){
-				if(locationsView.Selection.PathIsSelected(path)){
-					TreePath childPath = filter.ConvertPathToChildPath(path);
-					TreeIter childIter = filter.ConvertIterToChildIter(iter);
-					
-					// we also need delete the children of the location
-					DeleteLocations(childPath.Copy());
-					
-					// now that we found an iter that needs to be removed,
-					// remove it
-					Location loc = (Location)filter.Model.GetValue(childIter,0);
-					
-					// this won't delete the children
-					Locations.Remove(loc);
-					// this will also delete all the children
-					Locations.Positions.RemoveItemAt(childPath.Indices);
-					// do not move to next, since the next item will now be at the current position
-				}
-				else {
-					DeleteSelectedLocations(path.Copy());
-					path.Next();
-				}
-			}
-		}	
-		
+				
 		private void OnDeleteLocation(object sender, EventArgs args)
 		{
-			// we can't simply get all selected items and
-			// then remove each of them cause after 
-			// removing one item all the other iters or paths
-			// become invalid
-			// therefore we go throught the tree and check if 
-			// an item is selected and remove it if so
-			DeleteSelectedLocations(null);
+			// get the selected location
+			TreeModelFilter filter = (TreeModelFilter)locationsView.Model;
+			TreeIter iter;
+			locationsView.Selection.GetSelected(out iter);
+			
+			TreeIter childIter = filter.ConvertIterToChildIter(iter);
+			TreePath childPath = filter.Model.GetPath(childIter);
+			Location loc = (Location)filter.Model.GetValue(childIter,0);
+			
+			// now we delete the location
+			// we also need delete the children of the location
+			DeleteLocations(childPath.Copy());
+			Locations.Remove(loc);
+			
+			// this will also delete all the children
+			Locations.Positions.RemoveItemAt(childPath.Indices);
 		}
 				
 		private void OnGotoLocationItem (object sender, EventArgs args) {

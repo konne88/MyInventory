@@ -163,7 +163,7 @@ namespace MyInventory.GtkGui {
 				Items.Positions.RemoveAt(path.Indices[path.Depth-1]);
 				Items.Remove(item);
 			} catch(ItemLocationReferenceException ex) {
-				Console.WriteLine("Item can't be deleted since it is still referenced");
+				Console.WriteLine("Item can't be deleted since it is still referenced by Locations");
 			}
 		}
 		

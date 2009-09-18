@@ -26,6 +26,11 @@ namespace MyInventory.Model
 					throw new ArgumentNullException("Name");
 				if(value == "")
 					throw new ArgumentException("Name must not be empty");
+				if(value == _name)
+					return;
+				if(Tags.IsTagNameUsed(value))
+					throw new ArgumentException("Name is already in use");
+				
 				SetNotifyProperty(ref _name, value, "Name");
 			}
 			get { return _name; }
