@@ -1,0 +1,11 @@
+  - Make tags work properly
+x   - Adding new tags to the taglist doesn't work
+x   - Reordering tags needs to be rewritten
+x   - Removing tags needs to be written
+    - Sync item view with tags
+  - Fix bug in the tagsview, is not location which is weird
+    Deleting the last childitem of a tag, doesn't remove the little folding thing ">" from the parent
+  - Make the printing of labels work
+  - The bug in items poped up again where the filtering doesn't work for some weird reason
+x - Check to see if the git repo is in tact
+x - Add "remove image" action
