@@ -3,6 +3,7 @@ using System;
 using Gtk;
 using MyInventory.Model;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
@@ -15,9 +16,9 @@ namespace MyInventory.GtkGui {
 			builder.Autoconnect (this);
 		}
 		
-        public TagsBox (Tags tags, UIManager uiManager)
+		public TagsBox (Tags tags, UIManager uiManager)
 		: this(new Builder("tags_box.ui"))
-        {
+		{
 			Tags = tags;
 			
 			// create the actions
@@ -33,29 +34,11 @@ namespace MyInventory.GtkGui {
 			group.Add(action);
 			uiManager.InsertActionGroup(group,0);
 			
-			// create the tagsView
-			TreeViewColumn col = new TreeViewColumn ();
-			tagNameEditColumn = col;
-			col.Title = "Tag";
-			CellRenderer render = new CellRendererText ();
-			(render as CellRendererText).Editable = true;
-			(render as CellRendererText).Edited += OnTagNameEdited;
-			col.PackStart (render, true);
-			col.AddAttribute (render, "text", 1);
-			tagsView.AppendColumn(col);
-			
-			//tagsView.Selection.Changed += OnTagSelectionChanged;
-			tagsView.Reorderable = true;
-			tagsView.EnableSearch = false;
-			tags.CollectionChanged += OnTagCreation;
-			tagsView.Model = new TreeModelAdapter(new TagsModel(Tags));
-			tagsView.Model.RowInserted += OnRowInserted;
-			
 			// create the tagsItemView
-			col = new TreeViewColumn ();
+			TreeViewColumn col = new TreeViewColumn ();
 			col.Title = "Items with this Tag";
 			col.Expand = true;
-			render = new CellRendererPixbuf ();
+			CellRenderer render = new CellRendererPixbuf ();
 			col.PackStart (render, false);
 			col.AddAttribute (render, "pixbuf", 1);
 			render = new CellRendererText ();
@@ -65,14 +48,92 @@ namespace MyInventory.GtkGui {
 			
 			TreeModel model = new TreeModelAdapter(new ItemsModel(Tags.Inventory.Items));
 			TreeModelFilter filter = new TreeModelFilter (model , null);
-			//filter.VisibleFunc = new TreeModelFilterVisibleFunc (FilterTagItems);
 			tagItemsView.Model = filter;
+			filter.VisibleFunc = new TreeModelFilterVisibleFunc (FilterTagItems);
+			
+			// create the tagsView
+			col = new TreeViewColumn ();
+			tagNameEditColumn = col;
+			col.Title = "Tag";
+			render = new CellRendererText ();
+			(render as CellRendererText).Editable = true;
+			(render as CellRendererText).Edited += OnTagNameEdited;
+			col.PackStart (render, true);
+			col.AddAttribute (render, "text", 1);
+			tagsView.AppendColumn(col);
+			
+			tagsView.Selection.Changed += OnTagSelectionChanged;
+			tagsView.Reorderable = true;
+			tagsView.EnableSearch = false;
+			tags.CollectionChanged += OnTagCreation;
+			tagsView.Model = new TreeModelAdapter(new TagsModel(Tags));
+			tagsView.Model.RowInserted += OnRowInserted;
+			tagsView.RowCollapsed += OnSelectRowExpandedCollapsed;
+			tagsView.RowExpanded += OnSelectRowExpandedCollapsed;
 			
 			// create the popups
 			uiManager.AddUiFromResource("tags_box_menues.xml");
 			tagPopup = (Menu) uiManager.GetWidget("/tagPopup");
-	    }
-				
+		}
+		
+		private void OnSelectRowExpandedCollapsed(object o, object args) {
+			((TreeModelFilter)tagItemsView.Model).Refilter();
+		}
+		
+		private void GetTagChildTags(TreePath parent, TreeModel model, ref List<Tag> list) {
+			TreeIter iter;
+			TreePath path = parent.Copy();
+			path.Down();
+			
+			while(model.GetIter(out iter, path)) {
+				list.Add((Tag)model.GetValue(iter, 0));
+				GetTagChildTags(path, model, ref list);
+				path.Next();
+			}
+		}
+		
+		private bool FilterTagItems (TreeModel itemModel, TreeIter itemIter)
+		{
+			// this function doesn't pass the filter but the actual model used
+			
+			TreeModel tagModel;
+			TreeIter tagIter;
+			if(!tagsView.Selection.GetSelected(out tagModel, out tagIter))
+				return false;
+			TreePath tagPath = tagModel.GetPath(tagIter);
+			
+			// we search in items for the currently selected tag
+			Tag tag = (Tag)tagModel.GetValue(tagIter,0);
+			if(tag == null)
+				return false;
+			
+			// and if the selected tag is not expanded, we also show it's children
+			List<Tag> tags = new List<Tag>();
+			tags.Add(tag);
+			if(!tagsView.GetRowExpanded(tagPath))
+				GetTagChildTags(tagPath,tagModel,ref tags);
+			
+			// we get the current item and check if any of the tags exist in it
+			Model.Item item = (Model.Item)itemModel.GetValue(itemIter,0);
+			if(item == null) 
+				return false;
+			
+			foreach(Tag t in tags){
+				foreach(ItemTag it in item.Tags){
+					if(object.ReferenceEquals(t, it.Tag)){
+						return true;
+					}
+				}
+			}
+			
+			return false;
+		}
+		
+		private void OnTagSelectionChanged(object sender, EventArgs args)
+		{
+			((TreeModelFilter)tagItemsView.Model).Refilter();
+		}
+		
 		public void OnRowInserted(object o, RowInsertedArgs args){
 			if(ShowMe != null)
 				ShowMe(this,new ShowMeEventArgs());
