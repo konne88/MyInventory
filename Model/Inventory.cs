@@ -92,11 +92,13 @@ namespace MyInventory.Model
 		
 		static public Inventory Load(string path, Settings settings) {
 			Inventory inventory = new Inventory(path,settings);
+			String invFile = System.IO.Path.Combine(path,"inventory.xml");
 			
-			XPathDocument doc = new XPathDocument(System.IO.Path.Combine(path,"inventory.xml"));
-			XPathNavigator nav = doc.CreateNavigator();
-			inventory.DeserializeProperties(nav.SelectSingleNode("inventory"));
-			
+			if(File.Exists(invFile)){
+				XPathDocument doc = new XPathDocument(invFile);
+				XPathNavigator nav = doc.CreateNavigator();
+				inventory.DeserializeProperties(nav.SelectSingleNode("inventory"));
+			}
 			return inventory;
 		}
 	}
