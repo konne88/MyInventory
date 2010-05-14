@@ -41,7 +41,7 @@ namespace MyInventory.Model
 			// wasn't set when the id was changed.
 			UpdateCache();
 		}
-				
+		
 		public abstract void Serialize(XmlWriter writer);
 		
 		protected virtual void SerializeProperties(XmlWriter writer) {
@@ -146,7 +146,25 @@ namespace MyInventory.Model
 			NotifyPropertyChanged("Images");
 		}
 		
-		private void OnTagsChanged(object sender, NotifyCollectionChangedEventArgs args){
+		private void OnTagsChanged(object sender, NotifyCollectionChangedEventArgs e){
+			if(e.Action == NotifyCollectionChangedAction.Remove )
+				foreach(object o in e.OldItems)
+					((ItemTag)o).PropertyChanged -= OnItemTagChanged;
+
+			if(e.Action == NotifyCollectionChangedAction.Add )
+				foreach(object o in e.NewItems)
+					((ItemTag)o).PropertyChanged += OnItemTagChanged;
+			
+			NotifyPropertyChanged("Tags");
+		}
+		
+		
+		
+		private void OnItemTagChanged(Object sender, PropertyChangedEventArgs e){
+		
+			
+			Console.WriteLine("Some Tag Event on the List");
+			
 			NotifyPropertyChanged("Tags");
 		}
 		

@@ -8,6 +8,7 @@
     <ProjectGuid>{89558522-6EF9-4537-BBE6-924D95ED8562}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Model</AssemblyName>
+    <RootNamespace>Model</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

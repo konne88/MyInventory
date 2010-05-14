@@ -170,34 +170,15 @@
       <Project>{89558522-6EF9-4537-BBE6-924D95ED8562}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Libs\Libs.csproj">
+      <Project>{B54972BA-F3F5-4E40-849C-96E84413C5C5}</Project>
+      <Name>Libs</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Basics\" />
     <Folder Include="Locations\" />
     <Folder Include="Tags\" />
     <Folder Include="Print\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="gdk-sharp.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="glib-sharp.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="gtk-sharp.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libgdksharpglue-2.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libglibsharpglue-2.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="libgtksharpglue-2.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="pango-sharp.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

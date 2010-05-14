@@ -189,6 +189,7 @@ namespace MyInventory.Model
 			string path = GetFullImagePath(id,ImageState.Modified);
 			try {
 				File.Delete(path);
+				File.Delete(GetPreviewPath(id,ImageState.Modified));
 			} catch (DirectoryNotFoundException){
 				Directory.CreateDirectory(GetImagesPath(ImageState.Modified));
 			}	

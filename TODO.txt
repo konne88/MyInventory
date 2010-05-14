@@ -1,11 +1,21 @@
-  - Make tags work properly
-x   - Adding new tags to the taglist doesn't work
-x   - Reordering tags needs to be rewritten
-x   - Removing tags needs to be written
-    - Sync item view with tags
-  - Fix bug in the tagsview, is not location which is weird
-    Deleting the last childitem of a tag, doesn't remove the little folding thing ">" from the parent
-  - Make the printing of labels work
-  - The bug in items poped up again where the filtering doesn't work for some weird reason
-x - Check to see if the git repo is in tact
-x - Add "remove image" action
+Bugs
+- Fix bug in the tagsview, is not location which is weird
+  Deleting the last childitem of a tag, doesn't remove the little folding thing ">" from the parent
+- The bug in items poped up again where the filtering doesn't work for some weird reason
+- Clear checkmark with location for Labeled if the Item is changed
+- Hide the Items bar in the beginning
+
+Feature Enhancements
+- Make the printing of labels work
+- Rethink on how the adding for locations and tags should work
+
+Fixed Problems
+- Check to see if the git repo is in tact
+- Add "remove image" action
+- Make tags work properly
+ - Adding new tags to the taglist doesn't work
+ - Reordering tags needs to be rewritten
+ - Removing tags needs to be written
+ - Sync item view with tags
+- Adding image / removing it and then adding a new image will use the just deleted image
+
