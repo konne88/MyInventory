@@ -215,18 +215,7 @@ namespace MyInventory.GtkGui {
 			if(item == null) return false;
 			return item.MatchesKey(key);
 		}
-		
-		private void OnLocationsViewPopup(object o, WidgetEventArgs args){
-			if(args.Event is Gdk.EventButton){
-				Gdk.EventButton e = (Gdk.EventButton) args.Event;
-			
-				//3 is the right mouse button
-				if(e.Button == 3){
-					locationPopup.Popup(null,null,null,e.Button, e.Time);
-				}
-			}
-		}
-		
+				
 		private void OnCreateLocation(object sender, EventArgs args)
 		{		
 			// check if an item is already created
@@ -381,6 +370,22 @@ namespace MyInventory.GtkGui {
 				DrawDescriptionEntry(entry,new DrawDescriptionEntryEventArgs(desc,args.Event.Window));
 			}
 		}
+		
+		/* These functions are used by glade that gets them using reflection.
+		 * Therefore the warning that the function is not used is disabled.
+		 */
+		#pragma warning disable 169
+		private void OnLocationsViewPopup(object o, WidgetEventArgs args){
+			if(args.Event is Gdk.EventButton){
+				Gdk.EventButton e = (Gdk.EventButton) args.Event;
+			
+				//3 is the right mouse button
+				if(e.Button == 3){
+					locationPopup.Popup(null,null,null,e.Button, e.Time);
+				}
+			}
+		}
+		#pragma warning restore
 		
 		public event GotoItemEventHandler GotoItem;
 		public event ShowMeEventHandler ShowMe;

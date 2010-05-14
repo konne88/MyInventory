@@ -88,7 +88,11 @@ namespace MyInventory.GtkGui {
 			
 			Console.WriteLine("Create Item");
 		}
-
+		
+		/* These functions are used by glade that gets them using reflection.
+		 * Therefore the warning that the function is not used is disabled.
+		 */
+		#pragma warning disable 169
 		private void OnCreateIdInput(object o, InputArgs args) {
 			SpinButton spin = (SpinButton)o;
 			
@@ -122,6 +126,7 @@ namespace MyInventory.GtkGui {
 			
 			Console.WriteLine("Create Item Done");
 		}
+		#pragma warning restore
 		
 		public event ShowMeEventHandler ShowMe;
 		

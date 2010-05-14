@@ -144,17 +144,6 @@ namespace MyInventory.GtkGui {
 			return item.MatchesKey(itemsViewFilter.Text);
 		}
 		
-		private void OnItemsViewPopup(object o, WidgetEventArgs args){
-			if(args.Event is Gdk.EventButton){
-				Gdk.EventButton e = (Gdk.EventButton) args.Event;
-			
-				//3 is the right mouse button
-				if(e.Button == 3){
-					itemPopup.Popup(null,null,null,e.Button, e.Time);
-				}	
-			}
-		}
-		
 		public void OnItemsFilterChanged(object o,EventArgs args){
 			(itemsView.Model as TreeModelFilter).Refilter();
 		}
@@ -180,7 +169,7 @@ namespace MyInventory.GtkGui {
 				path = (filter as TreeModelFilter).ConvertPathToChildPath(path);
 				Items.Positions.RemoveAt(path.Indices[path.Depth-1]);
 				Items.Remove(item);
-			} catch(ItemLocationReferenceException ex) {
+			} catch(ItemLocationReferenceException) {
 				Console.WriteLine("Item can't be deleted since it is still referenced by Locations");
 			}
 		}
@@ -250,6 +239,22 @@ namespace MyInventory.GtkGui {
 			
 			itemManipulationBook.ShowTabByWidget(itemCreateAlign);
 		}
+		
+		/* This function is used by glade that uses this function using reflection.
+		 * Therefore the warning that the function is not used is disabled.
+		 */
+		#pragma warning disable 169
+		private void OnItemsViewPopup(object o, WidgetEventArgs args){
+			if(args.Event is Gdk.EventButton){
+				Gdk.EventButton e = (Gdk.EventButton) args.Event;
+			
+				//3 is the right mouse button
+				if(e.Button == 3){
+					itemPopup.Popup(null,null,null,e.Button, e.Time);
+				}	
+			}
+		}
+		#pragma warning restore
 		
 		public event ShowMeEventHandler ShowMe;
 		public event DrawDescriptionEntryEventHandler DrawDescriptionEntry;

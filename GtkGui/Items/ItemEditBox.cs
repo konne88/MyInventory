@@ -437,11 +437,6 @@ namespace MyInventory.GtkGui {
 			ItemPropertyChanged((Widget)sender,currentlyEditedItem);
 		}
 		
-		private void OnDisplayPurchaseDatePicker (object o, EventArgs args){
-			Product product = (Product)currentlyEditedItem;
-			purchaseDatePicker.PickDate(product.PurchaseDate, itemEditShowCalendar);
-		}
-		
 		private void OnItemTagNameEdited(object o, EditedArgs args) {
 			// free the model
 			itemTagCompletion.Model = null;
@@ -513,78 +508,7 @@ namespace MyInventory.GtkGui {
 			// this explains the array acces
 			currentlyEditedItem.Tags.RemoveAt(selects[0].Indices[0]);
 		}
-		/*
-		private void OnAddItemImage(object widget, EventArgs args){		
-			FileChooserDialog fc = new FileChooserDialog(
-			    "Choose an Image", this.window, FileChooserAction.Open,
-				"Cancel",
-				ResponseType.Cancel,
-				"Open",
-				ResponseType.Accept
-			);
-			
-			if (fc.Run() == (int)ResponseType.Accept) {
-				AddItemImage(fc.Filename);
-			}
-				
-			//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
-			fc.Destroy();
-		}
-			
-		private void OnRemoveItemImage(object o, EventArgs args){
-			// get the currently selected image		
-			TreeModel filter;
-			TreeIter iter;
-			if(itemEditImages.Selection.GetSelected(out filter, out iter) == false) return;
-			Image img = (Image)filter.GetValue(iter, 0);
-			
-			// if this is the main img ...
-			if(object.ReferenceEquals(currentlyEditedItem.MainImage,img)){
-				// ...set the main-img to be s.th else
-				currentlyEditedItem.MainImage = null;
-				foreach(object[] ob in currentlyEditedItem.Images){
-					if(! object.ReferenceEquals(ob[0],img)){
-						currentlyEditedItem.MainImage = (Image)ob[0];
-						// repaint the main-image so that all of the radio states are right
-						EmitModelObjectChanged(ob[0] as Image,filter,0);
-						break;
-					}
-				}
-			}
-			
-			// delete all the resources that were allocated, once the image was created
-			img.DeleteResources(settings.inventoryEditPath);
-			
-			// remove the image
-			// if there was a filter this wouldn't work.
-			currentlyEditedItem.Images.Remove(ref iter);
-			
-			// repaint the item in the itemsView the img was removed from
-			EmitModelObjectChanged(currentlyEditedItem,itemsView.Model,0);
-		}
-		*/
-		private void OnItemImagesViewPopup(object o, WidgetEventArgs args){
-			if(args.Event is Gdk.EventButton){
-				Gdk.EventButton e = (Gdk.EventButton) args.Event;
-			
-				//3 is the right mouse button
-				if(e.Button == 3){
-					itemImagePopup.Popup(null,null,null,e.Button, e.Time);
-				}	
-			}
-		}
-		
-		private void OnItemTagsViewPopup(object o, WidgetEventArgs args){
-			if(args.Event is Gdk.EventButton){
-				Gdk.EventButton e = (Gdk.EventButton) args.Event;
-			
-				//3 is the right mouse button
-				if(e.Button == 3){
-					itemTagPopup.Popup(null,null,null,e.Button, e.Time);
-				}	
-			}
-		}				
-		
+
 		private void OnRelativeTimeSpanOutput(object o, OutputArgs args){			
 			SpinButton spin = (SpinButton) o;
 			string text;
@@ -618,7 +542,62 @@ namespace MyInventory.GtkGui {
 			args.NewValue = val;
 			args.RetVal = 1;
 		}
+		
+		private void OnExposeDescriptionEntry (object entry, ExposeEventArgs args) {
+			if(DrawDescriptionEntry != null){
+				string desc = "no desc";
 				
+				if(object.ReferenceEquals(entry, itemEditName)) desc = "Name";
+				else if(object.ReferenceEquals(entry, itemEditMemo)) desc = "Memo";
+				else if(object.ReferenceEquals(entry, itemEditBarcode)) desc = "Identification Code";
+				else if(object.ReferenceEquals(entry, itemEditBrand)) desc = "Brand";
+				else if(object.ReferenceEquals(entry, itemEditModel)) desc = "Model";
+				else if(object.ReferenceEquals(entry, itemEditZip)) desc = "Zip";
+				else if(object.ReferenceEquals(entry, itemEditCity)) desc = "City";
+				else if(object.ReferenceEquals(entry, itemEditStreet)) desc = "Street";
+				else if(object.ReferenceEquals(entry, itemEditCountry)) desc = "Country";
+				else if(object.ReferenceEquals(entry, itemEditPurchase)) desc = "Date of purchase";
+				else if(object.ReferenceEquals(entry, itemEditWarranty)) desc = "Warranty in";
+				else if(object.ReferenceEquals(entry, itemEditWeight)) desc = "Weight in";
+				else if(object.ReferenceEquals(entry, itemEditCost)) desc = "Asset Cost in";
+				else if(object.ReferenceEquals(entry, itemEditUsefulLife)) desc = "Useful Life in";
+				else if(object.ReferenceEquals(entry, itemEditAmount)) desc = "Purchased";
+				
+				DrawDescriptionEntry(entry,new DrawDescriptionEntryEventArgs(desc,args.Event.Window));
+			}
+		}
+		
+		/* These functions are used by glade that gets them using reflection.
+		 * Therefore the warning that the function is not used is disabled.
+		 */
+		#pragma warning disable 169
+		private void OnDisplayPurchaseDatePicker (object o, EventArgs args){
+			Product product = (Product)currentlyEditedItem;
+			purchaseDatePicker.PickDate(product.PurchaseDate, itemEditShowCalendar);
+		}
+		
+		private void OnItemImagesViewPopup(object o, WidgetEventArgs args){
+			if(args.Event is Gdk.EventButton){
+				Gdk.EventButton e = (Gdk.EventButton) args.Event;
+			
+				//3 is the right mouse button
+				if(e.Button == 3){
+					itemImagePopup.Popup(null,null,null,e.Button, e.Time);
+				}	
+			}
+		}
+		
+		private void OnItemTagsViewPopup(object o, WidgetEventArgs args){
+			if(args.Event is Gdk.EventButton){
+				Gdk.EventButton e = (Gdk.EventButton) args.Event;
+			
+				//3 is the right mouse button
+				if(e.Button == 3){
+					itemTagPopup.Popup(null,null,null,e.Button, e.Time);
+				}	
+			}
+		}				
+		
 		private void OnWarrantyOutput(object o, OutputArgs args){
 			SpinButton spin = (SpinButton) o;
 			if(spin.Value < 0) {
@@ -646,30 +625,7 @@ namespace MyInventory.GtkGui {
 			}
 			else args.RetVal = 0;
 		}
-		
-		private void OnExposeDescriptionEntry (object entry, ExposeEventArgs args) {
-			if(DrawDescriptionEntry != null){
-				string desc = "no desc";
-				
-				if(object.ReferenceEquals(entry, itemEditName)) desc = "Name";
-				else if(object.ReferenceEquals(entry, itemEditMemo)) desc = "Memo";
-				else if(object.ReferenceEquals(entry, itemEditBarcode)) desc = "Identification Code";
-				else if(object.ReferenceEquals(entry, itemEditBrand)) desc = "Brand";
-				else if(object.ReferenceEquals(entry, itemEditModel)) desc = "Model";
-				else if(object.ReferenceEquals(entry, itemEditZip)) desc = "Zip";
-				else if(object.ReferenceEquals(entry, itemEditCity)) desc = "City";
-				else if(object.ReferenceEquals(entry, itemEditStreet)) desc = "Street";
-				else if(object.ReferenceEquals(entry, itemEditCountry)) desc = "Country";
-				else if(object.ReferenceEquals(entry, itemEditPurchase)) desc = "Date of purchase";
-				else if(object.ReferenceEquals(entry, itemEditWarranty)) desc = "Warranty in";
-				else if(object.ReferenceEquals(entry, itemEditWeight)) desc = "Weight in";
-				else if(object.ReferenceEquals(entry, itemEditCost)) desc = "Asset Cost in";
-				else if(object.ReferenceEquals(entry, itemEditUsefulLife)) desc = "Useful Life in";
-				else if(object.ReferenceEquals(entry, itemEditAmount)) desc = "Purchased";
-				
-				DrawDescriptionEntry(entry,new DrawDescriptionEntryEventArgs(desc,args.Event.Window));
-			}
-		}
+		#pragma warning restore
 		
 		private readonly Items Items;
 		private Inventory Inventory {

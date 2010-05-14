@@ -275,7 +275,7 @@ namespace MyInventory.GtkGui {
 	    		
 		private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
 			TreeModel m = new TreeModelAdapter(this);
-					
+			
 			switch(args.Action){
 			case NotifyCollectionChangedAction.Add: 
 			{
@@ -356,6 +356,9 @@ namespace MyInventory.GtkGui {
 		}
 
 		private void DisconnectNode(Node node){
+			// this is not used yet (and may be never used) because
+			// often it is just done by calling DisconnectObject etc
+			// directly
 			object nodeVal = node.NodeVal;
 			DisconnectObject(GetObject(nodeVal));
 			DisconnectCollection(GetCollection(nodeVal));
@@ -384,12 +387,6 @@ namespace MyInventory.GtkGui {
 			if(notif != null)
 				notif.PropertyChanged -= OnObjectChanged;
 		}
-		
-		public event RowChangedHandler RowChanged;
-		public event RowDeletedHandler RowDeleted;
-		public event RowHasChildToggledHandler RowHasChildToggled;
-		public event RowInsertedHandler RowInserted;
-		public event RowsReorderedHandler RowsReordered;
 		
 		//----------------------------
 		// This is all about the Node

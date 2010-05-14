@@ -133,6 +133,10 @@ namespace MyInventory.GtkGui {
 		
 		public event DateChangedEventHandler DateChanged;
 				
+		/* This function is used by glade that uses this function using reflection.
+		 * Therefore the warning that the function is not used is disabled.
+		 */
+		#pragma warning disable 169
 		private void OnPurchaseDatePickerEvent(object o, WidgetEventArgs args){
 			// hide the picker if click outside
 			if(args.Event is Gdk.EventButton){
@@ -147,6 +151,7 @@ namespace MyInventory.GtkGui {
 				}
 			}
 		}
+		#pragma warning restore	
 		
 		[Builder.Object] private Calendar purchaseDateCalendar;
 		[Builder.Object] private CheckButton purchaseDateAvailable;

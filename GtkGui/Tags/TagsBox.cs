@@ -156,8 +156,6 @@ namespace MyInventory.GtkGui {
 			if(ShowMe != null)
 				ShowMe(this,new ShowMeEventArgs());
 			
-			TreeModel model = tagsView.Model;
-			
 			if(TagJustCreated == true){
 				// activate and edit the created tag
 				TreePath path = args.Path;
@@ -175,8 +173,7 @@ namespace MyInventory.GtkGui {
 			
 			// add the new item as a sibling of the first selection		
 			TreePath[] selections = tagsView.Selection.GetSelectedRows();
-			TreeModel model = (TreeModel)tagsView.Model;
-			
+
 			if(selections != null && selections.Length != 0){
 				// something is selected
 				TreePath pos = selections[0];
@@ -275,6 +272,10 @@ namespace MyInventory.GtkGui {
 			}
 		}
 		
+		/* These functions are used by glade that gets them using reflection.
+		 * Therefore the warning that the function is not used is disabled.
+		 */
+		#pragma warning disable 169
 		private void OnTagsViewPopup(object o, WidgetEventArgs args){
 			if(args.Event is Gdk.EventButton){
 				Gdk.EventButton e = (Gdk.EventButton) args.Event;
@@ -285,6 +286,7 @@ namespace MyInventory.GtkGui {
 				}	
 			}
 		}
+		#pragma warning restore
 		
 		public event ShowMeEventHandler ShowMe;
 		

@@ -58,8 +58,13 @@ namespace MyInventory.Model
 		public virtual Item Item {
 			set { 
 				if(value == null)
-					throw new ArgumentNullException("Item");
-				SetNotifyProperty(ref _item, value, "Item");  
+					throw new ArgumentNullException("Item");	
+				SetNotifyProperty(ref _item, value, "Item");
+				// it is ok to keep the location labeled even if the
+				// new item does not support labeling. Changing this
+				// would be very complicated since then we would also
+				// have to check this when the item's label status is
+				// updated
 			}
 			get { return _item; }
 		}
