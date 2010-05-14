@@ -1,7 +1,7 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workbench ActiveDocument="Libs/Dummy.cs" ctype="Workbench">
     <Files>
-      <File FileName="Model/Locations/Locations.cs" Line="19" Column="14" />
+      <File FileName="Model/Locations/Locations.cs" Line="1" Column="1" />
       <File FileName="GtkGui/Locations/LocationsBox.cs" Line="1" Column="1" />
       <File FileName="Model/Items/Items.cs" Line="1" Column="1" />
       <File FileName="Model/Tags/Tags.cs" Line="1" Column="1" />
@@ -11,16 +11,12 @@
       <File FileName="GtkGui/Items/ItemEditBox.cs" Line="1" Column="1" />
       <File FileName="GtkGui/Basics/ObservableTreeModel.cs" Line="1" Column="1" />
       <File FileName="GtkGui/Print/Label.cs" Line="1" Column="1" />
-      <File FileName="Libs/MyClass.cs" Line="1" Column="1" />
-      <File FileName="Libs/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="Libs/Dummy.cs" Line="6" Column="12" />
+      <File FileName="Libs/Dummy.cs" Line="6" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="GtkGui" expanded="True" selected="True">
-            <Node name="References" expanded="True" />
-          </Node>
+          <Node name="GtkGui" expanded="True" selected="True" />
           <Node name="Libs" expanded="True" />
           <Node name="Model" expanded="True" />
         </State>
