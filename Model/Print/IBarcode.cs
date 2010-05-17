@@ -16,35 +16,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-
 using System;
-using System.Drawing;
-using System.ComponentModel;
 
 namespace MyInventory.Model
-{	
-	public class Settings : INotifyPropertyChanged
-	{		
-		public int PreviewWidth = 40;
-		public int PreviewHeight = 40;
-		public int PreviewBorderWidth = 1;
-		public Color PreviewBorderColor = Color.Black;
-		
-		public Type MemoryImage;
-		
-		public double UsefulLifeStandard = 5*365; //5 years in days
-		
-		public string ModifiedInventoryPath = "/tmp/modified_inventory/";
-		
-		private PageLayout layout;
-		public PageLayout Layout {
-			set {
-				layout = value;
-				QueueDraw();
-			}
-			get {
-				return layout;
-			}
-		}
+{
+	public class BarcodeNoStopException : ApplicationException
+	{
+		public BarcodeNoStopException() : base("No Stop code was added to the end of the Barcode.")
+		{}
 	}
+	
+	public interface IBarcode
+	{
+		void WriteString(string str);
+		void WriteEnd();
+		
+		int Silence {
+			get;
+			set;
+		}
+		int BarcodeWidth {
+			get;
+		}
+		bool[] Bars {
+			get;
+		}
+    }
 }

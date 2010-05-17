@@ -7,7 +7,6 @@
     <child>
       <object class="GtkVBox" id="mainBox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkNotebook" id="categoryBook">
             <property name="visible">True</property>
@@ -25,7 +24,6 @@
             <child type="tab">
               <object class="GtkVBox" id="itemsTab">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkImage" id="itemsTabImage">
                     <property name="visible">True</property>
@@ -63,7 +61,6 @@
             <child type="tab">
               <object class="GtkVBox" id="locationsTab">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkImage" id="locationsTabImage">
                     <property name="visible">True</property>
@@ -102,7 +99,6 @@
             <child type="tab">
               <object class="GtkVBox" id="tagsTab">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkImage" id="tagsTabImage">
                     <property name="visible">True</property>
@@ -124,45 +120,6 @@
               </object>
               <packing>
                 <property name="position">2</property>
-                <property name="tab_fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAlignment" id="printAlign">
-                <property name="visible">True</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child type="tab">
-              <object class="GtkVBox" id="printTab">
-                <property name="visible">True</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkImage" id="printTabImage">
-                    <property name="visible">True</property>
-                    <property name="stock">gtk-print</property>
-                  </object>
-                  <packing>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="printTabLabel">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Print</property>
-                  </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="position">3</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>

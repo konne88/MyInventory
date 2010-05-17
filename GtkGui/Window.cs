@@ -44,11 +44,14 @@ namespace MyInventory.GtkGui {
 			// create the file actions
 			Gtk.Action saveInventoryAction = new Gtk.Action("saveFile","Save","Save the active inventory",Stock.Save);
 			saveInventoryAction.Activated += OnSaveInventory;
+			Gtk.Action printLabelsAction = new Gtk.Action("printLabels","Print Labels","Print labels for items.",Stock.Print);
+			printLabelsAction.Activated += OnPrintLabels;
 			Gtk.Action quitAction = new Gtk.Action("quit","Quit","Quit the application",Stock.Quit);
 			quitAction.Activated += OnQuit;
 			Gtk.Action fileAction = new Gtk.Action("file","File");
 			ActionGroup fileActionGroup = new ActionGroup("file");
 			fileActionGroup.Add(saveInventoryAction);
+			fileActionGroup.Add(printLabelsAction);
 			fileActionGroup.Add(quitAction);
 			fileActionGroup.Add(fileAction);
 			uiManager.InsertActionGroup(fileActionGroup,0);	
@@ -71,10 +74,6 @@ namespace MyInventory.GtkGui {
 			tagsBox.ShowMe += OnShowTagsBox;
 			tagsAlign.Add(tagsBox);
 
-			// create print box
-			printBox = new PrintBox(inventory, uiManager);
-			printAlign.Add(printBox);
-			
 			// create tool and menubar
 			uiManager.AddUiFromResource("window_menues.xml");
 			menuBar = (MenuBar) uiManager.GetWidget("/menuBar");
@@ -95,6 +94,16 @@ namespace MyInventory.GtkGui {
 		{
 			Inventory.Save();
 			Console.WriteLine("Save");
+		}
+
+		private void OnPrintLabels(object o, EventArgs a) 
+		{
+			// create print dialog
+			if(printDialog == null){
+				printDialog = new PrintDialog(Inventory, uiManager);
+			}
+			printDialog.ShowAll();
+			Console.WriteLine("Print");
 		}
 		
 		private void OnQuit(object o, EventArgs args){
@@ -161,8 +170,6 @@ namespace MyInventory.GtkGui {
 		[Builder.Object] private     Gtk.Image tagsTabImage;
 		[Builder.Object] private     Alignment tagsAlign;
 		private                        TagsBox tagsBox;
-		[Builder.Object] private     Gtk.Image printTabImage;
-		[Builder.Object] private     Alignment printAlign;
-		private                        PrintBox printBox;
+		private                  PrintDialog printDialog;
     }
 }

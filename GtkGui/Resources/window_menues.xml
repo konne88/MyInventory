@@ -2,6 +2,7 @@
 	<menubar name="menuBar">
 		<menu action="file">
 			<menuitem action="saveFile" />
+			<menuitem action="printLabels" />
 			<separator/>
 			<menuitem action="quit" />
 		</menu>

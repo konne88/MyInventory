@@ -101,8 +101,8 @@
     <EmbeddedResource Include="Resources\tags_box_menues.xml">
       <LogicalName>tags_box_menues.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\print_box.ui">
-      <LogicalName>print_box.ui</LogicalName>
+    <EmbeddedResource Include="Resources\print_dialog.ui">
+      <LogicalName>print_dialog.ui</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -129,10 +129,12 @@
     <Compile Include="Tags\TagsBox.cs" />
     <Compile Include="Tags\TagsModel.cs" />
     <Compile Include="Items\ItemTagsModel.cs" />
-    <Compile Include="Print\PrintBox.cs" />
-    <Compile Include="Print\Barcode.cs" />
-    <Compile Include="Print\Label.cs" />
     <Compile Include="Basics\GotoEvents.cs" />
+    <Compile Include="Print\PrintDialog.cs" />
+    <Compile Include="Print\LabelRenderer.cs" />
+    <Compile Include="Print\PageRenderer.cs" />
+    <Compile Include="Print\IRenderable.cs" />
+    <Compile Include="Print\PaperPreview.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Posix" />

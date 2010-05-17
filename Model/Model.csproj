@@ -54,12 +54,17 @@
     <Compile Include="Tags\Tags.cs" />
     <Compile Include="Items\ItemTags.cs" />
     <Compile Include="Items\ItemTag.cs" />
+    <Compile Include="Print\IBarcode.cs" />
+    <Compile Include="Print\Code128.cs" />
+    <Compile Include="Print\Label.cs" />
+    <Compile Include="Print\Page.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Items\" />
     <Folder Include="Basics\" />
     <Folder Include="Locations\" />
     <Folder Include="Tags\" />
+    <Folder Include="Print\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
