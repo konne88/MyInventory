@@ -16,27 +16,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-
 using System;
-using System.Drawing;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace MyInventory.Model
-{	
-	public class Settings
-	{		
-		public int PreviewWidth = 40;
-		public int PreviewHeight = 40;
-		public int PreviewBorderWidth = 1;
-		public Color PreviewBorderColor = Color.Black;
+{
+	public class ObservableObject : INotifyPropertyChanged
+	{
+		protected void SetNotifyProperty<T>(ref T prop, T val,string name){
+			if(val == null && prop == null)
+				return;
+			
+			if(
+			   ( val == null || prop == null) ||
+			   ( !prop.Equals(val) )
+			)
+			{
+				prop = val;
+				NotifyPropertyChanged(name);
+			}
+		}
 		
-		public Type MemoryImage;
+		protected void NotifyPropertyChanged(string name)
+        {
+			if (PropertyChanged != null)
+			{
+			   PropertyChanged(this, new PropertyChangedEventArgs(name));
+			}
+        }
 		
-		public double UsefulLifeStandard = 5*365; //5 years in days
-		
-		public string ModifiedInventoryPath = "/tmp/modified_inventory/";
-		
-		public LabelLayout LabelLayout = new LabelLayout();
-		public PageLayout PageLayout = new PageLayout();
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

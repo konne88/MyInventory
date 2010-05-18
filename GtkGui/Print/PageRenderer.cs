@@ -9,8 +9,8 @@ namespace MyInventory.GtkGui
 {
 	public class PageRenderer : Page, IRenderable
 	{
-		public PageRenderer(PageLayout layout, ArrayList labels) 
-		: base(layout,labels)
+		public PageRenderer(ArrayList labels,PageLayout layout) 
+		: base(labels,layout)
 		{}
 		
 		public void Render(Cairo.Context cr, Layout layout, double tx, double ty, double w, double h) {

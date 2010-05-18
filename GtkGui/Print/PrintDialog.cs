@@ -42,24 +42,19 @@ namespace MyInventory.GtkGui {
         public PrintDialog(Inventory inv, UIManager uiManager)
 		: this(new Builder("print_dialog.ui"))
         {
-		//	Console.WriteLine((new Builder("print_dialog.ui")).GetObject("printDialog").GetType());
-			
 			Inventory = inv;
 			
-			pagePreview = new PagePreview( Settings, new PageLayout() );
-			pagePreview.SetSizeRequest(210+100,297);
+			pagePreview = new PagePreview( inv.Settings);
+			pagePreview.SetSizeRequest(210+100,297+40);
 			pagePreviewBox.Add(pagePreview);
 			
-			
-			labelPreview = new LabelPreview( new LabelLayout() );
-			labelPreview.SetSizeRequest(210,105);
+			labelPreview = new LabelPreview( inv.Settings );
 			labelPreviewBox.Add(labelPreview);
-			
-			//printSettings.PackStart(labelPreview);
 		}
 		
 		private void OnPageSetup(object sender, EventArgs args){
 			//Print.RunPageSetupDialog((Gtk.Window)this.Toplevel, Printing.DefaultPageSetup, Printing.PrintSettings);
+			
 		}
 		
 		private PageLayout GetPageLayout() {
@@ -82,18 +77,16 @@ namespace MyInventory.GtkGui {
 		
 		private void OnPrint(object sender, EventArgs arguments){	
 			PrintOperation printing = new PrintOperation();
-			PageLayout pageLayout = GetPageLayout();
-			LabelLayout labelLayout = GetLabelLayout();
 			
 			List<LabelRenderer> labels = new List<LabelRenderer>();
 			foreach(Model.Item item in Inventory.Items){
 				Product p = item as Product;
 				if(p != null && p.LabelMethod == LabelMethod.Print){
-					labels.Add(new LabelRenderer(item,labelLayout));
+					labels.Add(new LabelRenderer(item,Inventory.Settings.LabelLayout));
 				}
 			}
 			
-			int labelsPerPage = pageLayout.LabelsPerPage;
+			int labelsPerPage = Inventory.Settings.PageLayout.LabelsPerPage;
 			int currentLabel = 0;
 			
 			printing.BeginPrint += delegate (object obj, Gtk.BeginPrintArgs args)
@@ -120,7 +113,7 @@ namespace MyInventory.GtkGui {
 					}
 					while (currentLabel%labelsPerPage != 0 && currentLabel < labels.Count-1);
 					
-					PageRenderer page = new PageRenderer(pageLayout,pageLabels);
+					PageRenderer page = new PageRenderer(pageLabels,Inventory.Settings.PageLayout);
 					page.Render(cr,layout,0,0,context.Width,context.Height);
 				}
 			};

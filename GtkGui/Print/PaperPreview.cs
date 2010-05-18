@@ -6,6 +6,7 @@ using Gtk;
 using Gdk;
 using System.Collections;
 using MyInventory.Model;
+using System.ComponentModel;
 
 namespace MyInventory.GtkGui
 {
@@ -16,8 +17,9 @@ namespace MyInventory.GtkGui
 			ExposeEvent += OnExpose;
 		}
 		
+		protected abstract void OnLayoutChanged(object o,PropertyChangedEventArgs args);		
 		protected abstract void OnExpose(object o, ExposeEventArgs args);
-		
+		                                                         
 		protected void GetInnerRegion(ref double x, ref double y, ref double w, ref double h){
 			x += 1;
 			y += 1;
@@ -27,7 +29,7 @@ namespace MyInventory.GtkGui
 		
 		protected void DrawPaper(Cairo.Context cr, double x, double y, double w, double h){
 			// make the background white with a line around
-			cr.Rectangle(shadowOffset*2,shadowOffset*2,w-shadowOffset*2,h-shadowOffset*2);
+			cr.Rectangle(x+shadowOffset*2,y+shadowOffset*2,w-shadowOffset*2,h-shadowOffset*2);
 			cr.Color = shadowColor;
 			cr.Fill();
 			GetInnerRegion(ref x,ref y,ref w,ref h);
@@ -85,7 +87,6 @@ namespace MyInventory.GtkGui
 			layout.GetPixelSize(out lw, out lh);
 			h=(double)lh+SectionSerifeWidth*2;
 		}
-
 		
 		private const double SectionSerifeWidth = 4;
 		private readonly Cairo.Color shadowColor = new Cairo.Color(148.0/255.0,147.0/255.0,121.0/255.0);
@@ -94,95 +95,109 @@ namespace MyInventory.GtkGui
 	
 	class PagePreview : PaperPreview
 	{
-		public PagePreview(PageLayout pl)
+		public PagePreview(Model.Settings settings)
 		{
-			layout = pl;
+			this.settings = settings;
+			settings.PageLayout.PropertyChanged += OnLayoutChanged;
 		}
 		
+		protected override void OnLayoutChanged(object o,PropertyChangedEventArgs args) {
+			QueueDraw();
+		}
+
 		protected override void OnExpose(object o, ExposeEventArgs args)
 		{
 			using(Cairo.Context cr = Gdk.CairoHelper.Create(GdkWindow)){
 				// make the background white with a line around
-				double x = 0;
+				double x = sectionWidth;
 				double y = 0;
-				double tw = this.WidthRequest;
-				double th = this.HeightRequest;
-				double w = tw-sectionWidth;
-				double h = th-sectionHeight;
+				double w = Allocation.Width  -sectionWidth*2;
+				double h = Allocation.Height -sectionHeight;
 				Pango.Layout pl = new Pango.Layout(this.PangoContext);
 				
 				DrawPaper(cr,x,y,w,h);
 				
 				ArrayList labels = new ArrayList();
-				for(int i=0;i<layout.LabelsPerPage;++i){
+				for(int i=0;i < settings.PageLayout.LabelsPerPage;++i){
 					labels.Add( new PseudoLabelRenderer() );
 				}
 				
 				GetInnerRegion(ref x,ref y,ref w,ref h);
-				PageRenderer pr = new PageRenderer(Layout,labels);
+				PageRenderer pr = new PageRenderer(labels,settings.PageLayout);
 				pr.Render(cr,pl,x,y,w,h);
 				
 				double nn;
-				
-				DrawVerticalSectionIndicator("2mm",cr,pl,w+sectionPadding,y,out nn,h);
-				DrawHorizontalSectionIndicator("1mm",cr,pl,x,h+sectionPadding,w,out nn);
+				DrawVerticalSectionIndicator(settings.PageLayout.LabelRepeatX.ToString()+"x",cr,pl,x+w+sectionPadding,y,out nn,h);
+				DrawHorizontalSectionIndicator(settings.PageLayout.LabelRepeatY.ToString()+"x",cr,pl,x,y+h+sectionPadding,w,out nn);
 			}
 		}
 		
 		private readonly double sectionWidth = 100;
 		private readonly double sectionHeight = 40;
 		private readonly double sectionPadding = 10;
-		private PageLayout layout;
-		public PageLayout Layout {
-			set {
-				layout = value;
-				QueueDraw();
-			}
-			get {
-				return layout;
-			}
-		}
+		private Model.Settings settings;
 	}
 	
 	class LabelPreview : PaperPreview
 	{		
-		public LabelPreview(LabelLayout l)
+		public LabelPreview(Model.Settings settings)
 		{
-			layout = l;
+			this.settings = settings;
+			settings.PageLayout.PropertyChanged += OnLayoutChanged;
+			UpdateSize();
+		}
+		
+		private void ScaleFactors(out double x, out double y) {
+			x = Gdk.Screen.Default.Height / Gdk.Screen.Default.HeightMm;
+			y = Gdk.Screen.Default.Width / Gdk.Screen.Default.WidthMm;
+		}
+		
+		private void UpdateSize(){
+			double x,y;
+			ScaleFactors(out x, out y);
+			SetSizeRequest((int)(settings.PageLayout.LabelWidth*x +sectionWidth*2),
+			               (int)(settings.PageLayout.LabelHeight*y +sectionHeight));
+		}
+		
+		protected override void OnLayoutChanged(object o,PropertyChangedEventArgs args) {
+			UpdateSize();
+			QueueDraw();
 		}
 		
 		protected override void OnExpose(object o, ExposeEventArgs args)
 		{
 			using(Cairo.Context cr = Gdk.CairoHelper.Create(GdkWindow)){
-				double x = 0;
+				
+				Console.WriteLine();
+				
+				
+				double x = sectionWidth;
 				double y = 0;
-				double w = this.WidthRequest;
-				double h = this.HeightRequest;
+				double w = Allocation.Width  -sectionWidth*2;
+				double h = Allocation.Height -sectionHeight;
 				DrawPaper(cr,x,y,w,h);
 				GetInnerRegion(ref x,ref y,ref w,ref h);
 				
 				Pango.Layout pl = new Pango.Layout(this.PangoContext);
 				
-				LabelRenderer l = new LabelRenderer(Layout);
+				double nn;
+				DrawVerticalSectionIndicator(settings.PageLayout.LabelHeight.ToString()+"mm",cr,pl,x+w+sectionPadding,y,out nn,h);
+				DrawHorizontalSectionIndicator(settings.PageLayout.LabelWidth.ToString()+"mm",cr,pl,x,y+h+sectionPadding,w,out nn);
+				
+				LabelRenderer l = new LabelRenderer(settings.LabelLayout);
 				int labelPadding = 3;
 				l.Render(cr,pl,
-				         labelPadding,labelPadding,
-				         this.WidthRequest-2*labelPadding,
-				         this.HeightRequest-2*labelPadding);				
+				         x+labelPadding,y+labelPadding,
+				         w-2*labelPadding,
+				         h-2*labelPadding);
 			}
 		}
 		
-		private LabelLayout layout;
-		public LabelLayout Layout {
-			set {
-				layout = value;
-				QueueDraw();
-			}
-			get {
-				return layout;
-			}
-		}
-		
+		private Model.Settings settings;
 		private const double labelPadding = 3;
+		private readonly double sectionWidth = 100;
+		private readonly double sectionHeight = 40;
+		private readonly double sectionPadding = 10;
+
 	}
 }

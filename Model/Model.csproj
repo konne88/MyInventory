@@ -58,6 +58,7 @@
     <Compile Include="Print\Code128.cs" />
     <Compile Include="Print\Label.cs" />
     <Compile Include="Print\Page.cs" />
+    <Compile Include="Basics\ObservableObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Items\" />

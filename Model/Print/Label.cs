@@ -21,50 +21,6 @@ using System.ComponentModel;
 
 namespace MyInventory.Model
 {
-	public class LabelLayout : INotifyPropertyChanged {
-		// The space on top and bottom of the barcode
-		// in relation to the entire thing being 1
-		public LabelLayout(){
-			SpacingSize = 0.05;
-			Font = "sans 5";
-		}
-		
-		public double SpacingSize {
-			set {
-				spacing = value;
-				NotifyPropertyChanged("SpacingSize");
-			}
-			get {
-				return spacing;
-			}
-		}
-		public string Font;
-		
-		protected void SetNotifyProperty<T>(ref T prop, T val,string name){
-			if(val == null && prop == null)
-				return;
-			
-			if(
-			   ( val == null || prop == null) ||
-			   ( !prop.Equals(val) )
-			)
-			{
-				prop = val;
-				NotifyPropertyChanged(name);
-			}
-		}
-		
-		protected void NotifyPropertyChanged(string name)
-        {
-			if (PropertyChanged != null)
-			{
-			   PropertyChanged(this, new PropertyChangedEventArgs(name));
-			}
-        }
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-	}
-	
 	public class Label
     {
 		public Label(LabelLayout layout) {
@@ -85,5 +41,34 @@ namespace MyInventory.Model
 		public readonly string Description;
 		public readonly uint Id;
 		public readonly string InventoryAbbreviation;
+	}
+	
+	public class LabelLayout : ObservableObject {
+		// The space on top and bottom of the barcode
+		// in relation to the entire thing being 1
+		public LabelLayout(){
+			spacingSize = 0.05;
+			font = "sans 5";
+		}
+		
+		private double spacingSize;
+		public double SpacingSize {
+			set {
+				SetNotifyProperty<double>(ref spacingSize,value,"SpacingSize");
+			}
+			get {
+				return spacingSize;
+			}
+		}
+		
+		private string font;
+		public string Font {
+			set {
+				SetNotifyProperty<string>(ref font,value,"Font");
+			}
+			get {
+				return font;
+			}
+		}
 	}
 }
