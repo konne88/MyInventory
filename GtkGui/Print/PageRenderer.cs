@@ -17,9 +17,9 @@ namespace MyInventory.GtkGui
 			cr.Save();
 			cr.Translate(tx+Layout.PaddingX,ty+Layout.PaddingY);
 			int printingItem = 0;
-			double xpad = (Layout.LabelRepeatX == 0)?0:
+			double xpad = (Layout.LabelRepeatX <= 1)?0:
 					(w-Layout.PaddingX*2-Layout.LabelRepeatX*Layout.LabelWidth)/(Layout.LabelRepeatX-1);
-			double ypad = (Layout.LabelRepeatY == 0)?0:
+			double ypad = (Layout.LabelRepeatY <= 1)?0:
 					(h-Layout.PaddingY*2-Layout.LabelRepeatY*Layout.LabelHeight)/(Layout.LabelRepeatY-1);
 			
 			for(int x=0 ; x < this.Layout.LabelRepeatX ; ++x){

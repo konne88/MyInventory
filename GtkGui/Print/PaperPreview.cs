@@ -106,26 +106,24 @@ namespace MyInventory.GtkGui
 		}
 		
 		protected override void OnLayoutChanged(object o,PropertyChangedEventArgs args) {
-			UpdateSize();
 			QueueDraw();
 		}
 		
 		private void UpdateSize(){
 			double sx,sy;
 			ScaleFactors(out sx, out sy);
-			double w = settings.PageLayout.LabelWidth*sx+sectionWidth*2;
-			double h = settings.PageLayout.LabelWidth*heightPerWidth*sy+sectionHeight;
-			SetSizeRequest((int)(w),
-			               (int)(h));
+			double w = paperWidth*sx+sectionWidth;
+			double h = paperWidth*pageHeightPerWidth*sy+sectionHeight;
+			SetSizeRequest((int)w, (int)h);
 		}
 		
 		protected override void OnExpose(object o, ExposeEventArgs args)
 		{
 			using(Cairo.Context cr = Gdk.CairoHelper.Create(GdkWindow)){
 				// make the background white with a line around
-				double x = sectionWidth;
+				double x = 0;
 				double y = 0;
-				double w = Allocation.Width  -sectionWidth*2;
+				double w = Allocation.Width  -sectionWidth;
 				double h = Allocation.Height -sectionHeight;
 				Pango.Layout pl = new Pango.Layout(this.PangoContext);
 				
@@ -137,19 +135,30 @@ namespace MyInventory.GtkGui
 				}
 				
 				GetInnerRegion(ref x,ref y,ref w,ref h);
-				PageRenderer pr = new PageRenderer(labels,settings.PageLayout);
+				
+				PageLayout layout = new PageLayout();
+				layout.LabelRepeatX = settings.PageLayout.LabelRepeatX;
+				layout.LabelRepeatY = settings.PageLayout.LabelRepeatY;
+				layout.PaddingX = settings.PageLayout.PaddingX;				
+				layout.PaddingY = settings.PageLayout.PaddingY;
+				layout.LabelWidth = (w-2*layout.PaddingX-labelPadding*(layout.LabelRepeatX-1)) / layout.LabelRepeatX;
+				layout.LabelHeight = (h-2*layout.PaddingY-labelPadding*(layout.LabelRepeatY-1)) / layout.LabelRepeatY;
+				
+				PageRenderer pr = new PageRenderer(labels,layout);
 				pr.Render(cr,pl,x,y,w,h);
 				
-				double nn;
-				DrawVerticalSectionIndicator(settings.PageLayout.LabelRepeatY.ToString()+"x",cr,pl,x+w+sectionPadding,y,out nn,h);
-				DrawHorizontalSectionIndicator(settings.PageLayout.LabelRepeatX.ToString()+"x",cr,pl,x,y+h+sectionPadding,w,out nn);
+				//double nn;
+				//DrawVerticalSectionIndicator(settings.PageLayout.LabelRepeatY.ToString()+"x",cr,pl,x+w+sectionPadding,y,out nn,h);
+				//DrawHorizontalSectionIndicator(settings.PageLayout.LabelRepeatX.ToString()+"x",cr,pl,x,y+h+sectionPadding,w,out nn);
 			}
 		}
 		
-		private readonly double sectionWidth = 100;
+		private readonly double labelPadding = 2;
+		private readonly double paperWidth = 65; 	// mm
+		private readonly double sectionWidth = 80;
 		private readonly double sectionHeight = 40;
 		private readonly double sectionPadding = 10;
-		private readonly double heightPerWidth = Math.Sqrt(2);
+		private readonly double pageHeightPerWidth = Math.Sqrt(2);
 		private Model.Settings settings;
 	}
 	
@@ -165,8 +174,8 @@ namespace MyInventory.GtkGui
 		private void UpdateSize(){
 			double x,y;
 			ScaleFactors(out x, out y);
-			SetSizeRequest((int)(settings.PageLayout.LabelWidth*x +sectionWidth*2),
-			               (int)(settings.PageLayout.LabelHeight*y +sectionHeight));
+			SetSizeRequest((int)(paperWidth*x +sectionWidth),
+			               (int)(paperWidth*labelHeightPerWidth*y +sectionHeight));
 		}
 		
 		protected override void OnLayoutChanged(object o, PropertyChangedEventArgs args) {
@@ -180,10 +189,9 @@ namespace MyInventory.GtkGui
 				
 				Console.WriteLine();
 				
-				
-				double x = sectionWidth;
+				double x = 0;
 				double y = 0;
-				double w = Allocation.Width  -sectionWidth*2;
+				double w = Allocation.Width  -sectionWidth;
 				double h = Allocation.Height -sectionHeight;
 				DrawPaper(cr,x,y,w,h);
 				GetInnerRegion(ref x,ref y,ref w,ref h);
@@ -191,8 +199,8 @@ namespace MyInventory.GtkGui
 				Pango.Layout pl = new Pango.Layout(this.PangoContext);
 				
 				double nn;
-				DrawVerticalSectionIndicator(settings.PageLayout.LabelHeight.ToString()+"mm",cr,pl,x+w+sectionPadding,y,out nn,h);
-				DrawHorizontalSectionIndicator(settings.PageLayout.LabelWidth.ToString()+"mm",cr,pl,x,y+h+sectionPadding,w,out nn);
+				DrawVerticalSectionIndicator(settings.PageLayout.LabelHeight.ToString("N1")+"mm",cr,pl,x+w+sectionPadding,y,out nn,h);
+				DrawHorizontalSectionIndicator(settings.PageLayout.LabelWidth.ToString("N1")+"mm",cr,pl,x,y+h+sectionPadding,w,out nn);
 				
 				LabelRenderer l = new LabelRenderer(settings.LabelLayout);
 				int labelPadding = 3;
@@ -203,9 +211,11 @@ namespace MyInventory.GtkGui
 			}
 		}
 		
+		private readonly double paperWidth = 65; 	// mm
+		private readonly double labelHeightPerWidth = 0.5;
 		private Model.Settings settings;
 		private const double labelPadding = 3;
-		private readonly double sectionWidth = 100;
+		private readonly double sectionWidth = 80;
 		private readonly double sectionHeight = 40;
 		private readonly double sectionPadding = 10;
 	}
