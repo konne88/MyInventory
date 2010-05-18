@@ -19,7 +19,12 @@ namespace MyInventory.GtkGui
 		
 		protected abstract void OnLayoutChanged(object o,PropertyChangedEventArgs args);		
 		protected abstract void OnExpose(object o, ExposeEventArgs args);
-		                                                         
+		                 
+		protected void ScaleFactors(out double x, out double y) {
+			x = Gdk.Screen.Default.Height / Gdk.Screen.Default.HeightMm;
+			y = Gdk.Screen.Default.Width / Gdk.Screen.Default.WidthMm;
+		}
+		
 		protected void GetInnerRegion(ref double x, ref double y, ref double w, ref double h){
 			x += 1;
 			y += 1;
@@ -49,8 +54,6 @@ namespace MyInventory.GtkGui
 			cr.LineTo(x+SectionSerifeWidth*2,y+h);
 			cr.Color = new Cairo.Color(0, 0, 0);
 			cr.LineWidth = 1;
-			cr.Stroke();
-
 			layout.Alignment = Pango.Alignment.Left;
 			layout.SetText (text);
             layout.Ellipsize = EllipsizeMode.Middle;
@@ -99,12 +102,23 @@ namespace MyInventory.GtkGui
 		{
 			this.settings = settings;
 			settings.PageLayout.PropertyChanged += OnLayoutChanged;
+			UpdateSize();
 		}
 		
 		protected override void OnLayoutChanged(object o,PropertyChangedEventArgs args) {
+			UpdateSize();
 			QueueDraw();
 		}
-
+		
+		private void UpdateSize(){
+			double sx,sy;
+			ScaleFactors(out sx, out sy);
+			double w = settings.PageLayout.LabelWidth*sx+sectionWidth*2;
+			double h = settings.PageLayout.LabelWidth*heightPerWidth*sy+sectionHeight;
+			SetSizeRequest((int)(w),
+			               (int)(h));
+		}
+		
 		protected override void OnExpose(object o, ExposeEventArgs args)
 		{
 			using(Cairo.Context cr = Gdk.CairoHelper.Create(GdkWindow)){
@@ -127,14 +141,15 @@ namespace MyInventory.GtkGui
 				pr.Render(cr,pl,x,y,w,h);
 				
 				double nn;
-				DrawVerticalSectionIndicator(settings.PageLayout.LabelRepeatX.ToString()+"x",cr,pl,x+w+sectionPadding,y,out nn,h);
-				DrawHorizontalSectionIndicator(settings.PageLayout.LabelRepeatY.ToString()+"x",cr,pl,x,y+h+sectionPadding,w,out nn);
+				DrawVerticalSectionIndicator(settings.PageLayout.LabelRepeatY.ToString()+"x",cr,pl,x+w+sectionPadding,y,out nn,h);
+				DrawHorizontalSectionIndicator(settings.PageLayout.LabelRepeatX.ToString()+"x",cr,pl,x,y+h+sectionPadding,w,out nn);
 			}
 		}
 		
 		private readonly double sectionWidth = 100;
 		private readonly double sectionHeight = 40;
 		private readonly double sectionPadding = 10;
+		private readonly double heightPerWidth = Math.Sqrt(2);
 		private Model.Settings settings;
 	}
 	
@@ -147,11 +162,6 @@ namespace MyInventory.GtkGui
 			UpdateSize();
 		}
 		
-		private void ScaleFactors(out double x, out double y) {
-			x = Gdk.Screen.Default.Height / Gdk.Screen.Default.HeightMm;
-			y = Gdk.Screen.Default.Width / Gdk.Screen.Default.WidthMm;
-		}
-		
 		private void UpdateSize(){
 			double x,y;
 			ScaleFactors(out x, out y);
@@ -159,7 +169,7 @@ namespace MyInventory.GtkGui
 			               (int)(settings.PageLayout.LabelHeight*y +sectionHeight));
 		}
 		
-		protected override void OnLayoutChanged(object o,PropertyChangedEventArgs args) {
+		protected override void OnLayoutChanged(object o, PropertyChangedEventArgs args) {
 			UpdateSize();
 			QueueDraw();
 		}
@@ -198,6 +208,5 @@ namespace MyInventory.GtkGui
 		private readonly double sectionWidth = 100;
 		private readonly double sectionHeight = 40;
 		private readonly double sectionPadding = 10;
-
 	}
 }
