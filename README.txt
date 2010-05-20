@@ -4,6 +4,7 @@ Introduction
 This application is intended to keep track of an inventory.
 You can add products you own, virtually arrange them in your house,
 Tag them and print labels for them.
+To see some screenshots visit the project's wiki on github.
 
 Installation
 ============
@@ -63,8 +64,7 @@ Once started up you see three icons on the very left of the window.
    | /
    |/   
 
-To see an example inventory, load the test-inventory with MyInventory which
-is placed in the Test folder.
+To see an example inventory, copy the inventory folder in Testing into your homedirectory's .my_inventory folder.
 
 The git repo
 ============

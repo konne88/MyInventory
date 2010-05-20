@@ -19,7 +19,7 @@ namespace MyInventory.GtkGui
 		
 		protected abstract void OnLayoutChanged(object o,PropertyChangedEventArgs args);		
 		protected abstract void OnExpose(object o, ExposeEventArgs args);
-		                 
+		
 		protected void ScaleFactors(out double x, out double y) {
 			x = Gdk.Screen.Default.Height / Gdk.Screen.Default.HeightMm;
 			y = Gdk.Screen.Default.Width / Gdk.Screen.Default.WidthMm;
