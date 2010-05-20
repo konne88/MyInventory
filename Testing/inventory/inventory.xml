@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<inventory>
+  <items>
+    <product>
+      <id>1</id>
+      <name>Laptop</name>
+      <images main-image-id="1">
+        <image id="1" memo="Image from google" />
+      </images>
+      <tags>
+        <tag id="3" />
+      </tags>
+      <brand>Lenovo</brand>
+      <model>T400</model>
+      <label-method>print</label-method>
+    </product>
+    <estate>
+      <id>2</id>
+      <name>House</name>
+      <memo>This is where I life.</memo>
+      <street>1600 Pennsylvania Avenue NW</street>
+      <country>USA</country>
+      <zip>20500</zip>
+      <city>Washington D.C.</city>
+    </estate>
+    <product>
+      <id>3</id>
+      <name>400G Harddrive</name>
+      <images main-image-id="1">
+        <image id="1" />
+      </images>
+      <tags>
+        <tag id="7" />
+      </tags>
+      <brand>Segate</brand>
+      <model>TX123</model>
+    </product>
+    <product>
+      <id>4</id>
+      <name>Screen</name>
+      <memo>12'' Width</memo>
+      <tags>
+        <tag id="5" />
+      </tags>
+      <label-method>print</label-method>
+    </product>
+    <product>
+      <id>5</id>
+      <name>Keyboard</name>
+      <memo>German Keyboard with weird keys</memo>
+      <images main-image-id="1">
+        <image id="1" />
+      </images>
+      <tags>
+        <tag id="5" />
+        <tag id="4" />
+      </tags>
+      <brand>Microsoft</brand>
+      <purchase-date>2008-02-01T00:00:00.0000000+01:00</purchase-date>
+      <purchased-amount>4</purchased-amount>
+      <cost>25</cost>
+      <label-method>print</label-method>
+      <warranty>P1Y</warranty>
+      <useful-life>P4Y</useful-life>
+    </product>
+    <product>
+      <id>6</id>
+      <name>Mouse</name>
+      <memo>PC Mouse (Cabel)</memo>
+      <images main-image-id="1">
+        <image id="1" />
+      </images>
+      <tags>
+        <tag id="4" />
+      </tags>
+      <brand>Microsoft</brand>
+    </product>
+    <room>
+      <id>7</id>
+      <name>Computer Room</name>
+      <memo>Room where I store my computers</memo>
+    </room>
+    <room>
+      <id>8</id>
+      <name>Book Room</name>
+      <memo>Room where I keep my books</memo>
+    </room>
+    <product>
+      <id>9</id>
+      <name>Server</name>
+      <memo>My little System Z10</memo>
+      <images main-image-id="1">
+        <image id="1" />
+      </images>
+      <tags>
+        <tag id="3" />
+      </tags>
+      <brand>IBM</brand>
+      <purchase-date>2008-05-01T00:00:00.0000000+02:00</purchase-date>
+      <weight>5000</weight>
+      <cost>10000000</cost>
+      <label-method>print</label-method>
+      <useful-life>P20Y</useful-life>
+    </product>
+    <product>
+      <id>103</id>
+      <name>Design Patterns</name>
+      <memo>Elements of Reusable Object-Oriented Software</memo>
+      <tags>
+        <tag id="10" />
+      </tags>
+      <serial>8131700070</serial>
+      <label-method>print</label-method>
+    </product>
+    <product>
+      <id>10</id>
+      <name>The catcher in the rye</name>
+      <images main-image-id="1">
+        <image id="1" />
+      </images>
+      <tags>
+        <tag id="9" />
+      </tags>
+      <serial>0553250256</serial>
+      <label-method>print</label-method>
+    </product>
+    <product>
+      <id>11</id>
+      <name>Per Anhalter durch die Galaxis</name>
+      <memo>Hitchhiker's Guide to the Galaxy</memo>
+      <images main-image-id="4">
+        <image id="1" />
+        <image id="2" memo="Adding the same image twice" />
+        <image id="3" />
+        <image id="4" />
+      </images>
+      <tags>
+        <tag id="9" />
+      </tags>
+      <serial>9780671477097</serial>
+      <brand>Douglas Adams</brand>
+      <label-method>print</label-method>
+    </product>
+    <product>
+      <id>12</id>
+      <name>Bookshelf</name>
+      <brand>IKEA</brand>
+      <model>Swedish name</model>
+      <label-method>print</label-method>
+    </product>
+  </items>
+  <locations>
+    <location id="1" item-id="2">
+      <location id="2" item-id="7">
+        <location id="4" item-id="1">
+          <location id="7" item-id="3" amount="2" />
+        </location>
+        <location id="5" item-id="5" />
+        <location id="6" item-id="4" />
+        <location id="9" item-id="6" />
+        <location id="8" item-id="9" />
+      </location>
+      <location id="3" item-id="8">
+        <location id="10" item-id="11" />
+        <location id="11" item-id="10" />
+        <location id="12" item-id="103" />
+      </location>
+    </location>
+  </locations>
+  <tags>
+    <tag id="1" name="Hardware">
+      <tag id="2" name="Storage">
+        <tag id="7" name="Digital" />
+        <tag id="6" name="Analog" />
+      </tag>
+      <tag id="3" name="Computer">
+        <tag id="4" name="Input Devices" />
+        <tag id="5" name="Output Devices" />
+      </tag>
+    </tag>
+    <tag id="8" name="Book">
+      <tag id="10" name="Programming" />
+      <tag id="9" name="Novel" />
+    </tag>
+  </tags>
+</inventory>
