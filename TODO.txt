@@ -3,6 +3,7 @@ Bugs
   Deleting the last childitem of a tag, doesn't remove the little folding thing ">" from the parent
 - The bug in items poped up again where the filtering doesn't work for some weird reason
 - Hide the Items bar in the beginning
+- Deleting item doesn't remove the image of that item.
 
 Feature Enhancements
 - Make the printing of labels work

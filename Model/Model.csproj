@@ -59,6 +59,7 @@
     <Compile Include="Print\Label.cs" />
     <Compile Include="Print\Page.cs" />
     <Compile Include="Basics\ObservableObject.cs" />
+    <Compile Include="Print\UnitConversions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Items\" />
