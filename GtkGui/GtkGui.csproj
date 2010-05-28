@@ -183,4 +183,11 @@
     <Folder Include="Tags\" />
     <Folder Include="Print\" />
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Deployment.LinuxDeployData scriptName="myinventory" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
