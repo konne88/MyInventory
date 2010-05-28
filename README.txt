@@ -11,18 +11,15 @@ Installation
 
 Notice: Only running on x86 processors with 32bit for now!
 
-This application is still in a rather early development stage. No make or
-configure scripts exists yet and no .deb package has been created yet.
-So installation (or better execution) is still not that easy, but it
-is not that hard either. 
+Execute the standard 
 
-The project comes with files for the mono ide monodevelop. In order to run the
-application, install monodevelop and open the .sln file with it. 
-Now activate GtkGui in the Solutions panel and then click the Run button,
-(the gears in the toolbar). If you get some error messages at startup,
-it is likly that some librarys are missing. So go to your packagemanager
-and install the package that is missing. Adding cli or mono to the search makes
-finding the right package more likly.
+./configure
+make
+sudo make install
+
+tools to install the application. In order to execute it, run
+
+myinventory
 
 How to use it
 =============
@@ -65,6 +62,20 @@ Once started up you see three icons on the very left of the window.
    |/   
 
 To see an example inventory, copy the inventory folder in Testing into your homedirectory's .my_inventory folder.
+
+Hacking
+=======
+
+If you would like to compile the project yourself, here is how to do so using
+the monodevelop ide.
+
+The project comes with files for the mono ide monodevelop. In order to run the
+application, install monodevelop and open the .sln file with it. 
+Now activate GtkGui in the Solutions panel and then click the Run button,
+(the gears in the toolbar). If you get some error messages at startup,
+it is likly that some librarys are missing. So go to your packagemanager
+and install the package that is missing. Adding cli or mono to the search makes
+finding the right package more likely.
 
 The git repo
 ============
