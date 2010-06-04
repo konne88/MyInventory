@@ -130,6 +130,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
@@ -249,10 +250,14 @@ namespace MyInventory.Model
 				w=(float)Math.Round(w*oW/oH);
 			
 			float borderW = (float)Inventory.Settings.PreviewBorderWidth;
-						
+			
 			Bitmap preview = new Bitmap(original,new Size((int)w,(int)h));
 			Graphics gra = Graphics.FromImage(preview);
 			gra.Clear(Inventory.Settings.PreviewBorderColor);
+			// smooting etc will currently be ignored by mono
+			gra.SmoothingMode = SmoothingMode.AntiAlias;
+    		gra.InterpolationMode = InterpolationMode.HighQualityBicubic;
+    		gra.PixelOffsetMode = PixelOffsetMode.HighQuality;
 			gra.DrawImage(original,borderW,borderW,w-borderW*2,h-borderW*2);
 			
 			return preview;

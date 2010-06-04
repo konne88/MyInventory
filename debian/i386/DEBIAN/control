@@ -1,0 +1,14 @@
+Package: myinventory
+Version: 0.5
+Section: gnome 
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libmono-winforms1.0-cil, libmono-winforms2.0-cil, libmono1.0-cil, libmono2.0-cil, mono-gmcs
+Maintainer: Konstantin Weitz [konnew@gmx.de]
+Installed-Size: 3277
+Description: This application is intended to keep track of an inventory.
+             You can add products you own, virtually arrange them in your house,
+             Tag them and print labels for them.
+             To see some screenshots visit the project's wiki on github.
+

@@ -165,6 +165,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\gtk-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,22 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GtkGui/Print/PaperPreview.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Model/Items/Images.cs" ctype="Workbench">
     <Files>
-      <File FileName="GtkGui/Print/PrintDialog.cs" Line="1" Column="1" />
-      <File FileName="GtkGui/Print/PageRenderer.cs" Line="1" Column="1" />
-      <File FileName="GtkGui/Print/PaperPreview.cs" Line="89" Column="14" />
-      <File FileName="GtkGui/Print/LabelRenderer.cs" Line="1" Column="1" />
-      <File FileName="Model/Print/Page.cs" Line="1" Column="1" />
-      <File FileName="Model/Print/Label.cs" Line="1" Column="1" />
-      <File FileName="Model/Settings.cs" Line="1" Column="1" />
-      <File FileName="Model/Basics/ObservableObject.cs" Line="1" Column="1" />
-      <File FileName="GtkGui/Items/ItemEditBox.cs" Line="1" Column="1" />
-      <File FileName="GtkGui/GtkSettings.cs" Line="1" Column="1" />
-      <File FileName="Model/Print/UnitConversions.cs" Line="1" Column="1" />
+      <File FileName="Model/Items/Image.cs" Line="1" Column="1" />
+      <File FileName="Model/Items/MemoryImage.cs" Line="1" Column="1" />
+      <File FileName="Model/Items/Images.cs" Line="257" Column="53" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="GtkGui" expanded="True" selected="True" />
+          <Node name="GtkGui" expanded="True" />
+          <Node name="Model" expanded="True">
+            <Node name="Items" expanded="True">
+              <Node name="Images.cs" selected="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
@@ -24,8 +22,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
 </Properties>
