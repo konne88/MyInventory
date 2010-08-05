@@ -69,6 +69,8 @@ namespace MyInventory.GtkGui {
 			Inventory.Settings.LabelLayout.PropertyChanged += OnLayoutPropertyChanged;
 			Inventory.Settings.PageLayout.PropertyChanged += OnLayoutPropertyChanged;
 			
+			this.Icon = ((GtkSettings)Inventory.Settings).WindowIcon;
+			
 			UpdateLayoutWidgets();
 		}
 		

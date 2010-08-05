@@ -31,7 +31,6 @@ namespace MyInventory.Model
 		public Settings() {
 			InventoryPath = Path.Combine(GetPersistentPath(),"inventory");
 		}
-			
 		
 		// no signal will imply that the following properties have changed
 		// therefore you should not change them during application runtime

@@ -31,6 +31,11 @@ namespace MyInventory.GtkGui
 			RoomIcon = new Gdk.Pixbuf(null,"room.png");	
 			EstateIcon = new Gdk.Pixbuf(null,"estate.png");
 			
+			ItemsTabIcon = new Gdk.Pixbuf(null,"item.png");
+			LocationsTabIcon = new Gdk.Pixbuf(null,"location.png");
+			TagsTabIcon = new Gdk.Pixbuf(null,"tag.png");
+			WindowIcon = ItemsTabIcon;
+			
 			MemoryImage = typeof(GtkMemoryImage);
 		}
 		
@@ -46,6 +51,14 @@ namespace MyInventory.GtkGui
 		public Gdk.Pixbuf RoomIcon;
 		[XmlIgnore]
 		public Gdk.Pixbuf EstateIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf ItemsTabIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf LocationsTabIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf TagsTabIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf WindowIcon;
 		
 		// print preview layout
 		[XmlElement("paper-width")]

@@ -40,7 +40,7 @@ namespace MyInventory.GtkGui {
 			
 			// load the menues and toolbars
 			uiManager = new UIManager();
-						
+			
 			// create the file actions
 			Gtk.Action saveInventoryAction = new Gtk.Action("saveFile","Save","Save the active inventory",Stock.Save);
 			saveInventoryAction.Activated += OnSaveInventory;
@@ -85,9 +85,11 @@ namespace MyInventory.GtkGui {
 			mainBox.PackStart(toolbar,false,true,0);
 			
 			// laod category icons
-			itemsTabImage.Pixbuf = new Gdk.Pixbuf(null,"item.png");
-			locationsTabImage.Pixbuf = new Gdk.Pixbuf(null,"location.png");
-			tagsTabImage.Pixbuf = new Gdk.Pixbuf(null,"tag.png");
+			itemsTabImage.Pixbuf = ((GtkSettings)Inventory.Settings).ItemsTabIcon;
+			locationsTabImage.Pixbuf = ((GtkSettings)Inventory.Settings).LocationsTabIcon;
+			tagsTabImage.Pixbuf = ((GtkSettings)Inventory.Settings).TagsTabIcon;
+			
+			this.Icon = ((GtkSettings)Inventory.Settings).WindowIcon;
         }
 		
 		private void End(){
