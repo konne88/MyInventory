@@ -19,6 +19,7 @@
 using System;
 using Gtk;
 using MyInventory.Model;
+using System.IO;
 
 namespace MyInventory.GtkGui
 {
@@ -27,7 +28,14 @@ namespace MyInventory.GtkGui
 	    {
 			Gtk.Application.Init ();
 			
-			Inventory inv = Inventory.Load("/home/konne/.my_inventory/inventory",new GtkSettings());
+			// get the home folder
+			String path = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+			path = Path.Combine(path,".my_inventory");
+			path = Path.Combine(path,"inventory");
+			
+			Console.WriteLine("Loading the inventory from the path '"+path+"'");
+			
+			Inventory inv = Inventory.Load(path,new GtkSettings());
 	
 			Window w = new Window (inv);
 			w.ShowAll ();
