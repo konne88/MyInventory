@@ -22,8 +22,8 @@ namespace MyInventory.GtkGui
 			double ypad = (Layout.LabelRepeatY <= 1)?0:
 					(h-Layout.PaddingY*2-Layout.LabelRepeatY*Layout.LabelHeight)/(Layout.LabelRepeatY-1);
 			
-			for(int x=0 ; x < this.Layout.LabelRepeatX ; ++x){
-				for(int y=0 ; y < this.Layout.LabelRepeatY ; ++y){
+			for(int y=0 ; y < this.Layout.LabelRepeatY ; ++y){
+				for(int x=0 ; x < this.Layout.LabelRepeatX ; ++x){
 					if(printingItem == this.Labels.Count)
 						return;
 					IRenderable item = (IRenderable) this.Labels[printingItem];

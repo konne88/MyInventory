@@ -18,6 +18,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace MyInventory.Model
 {
@@ -44,14 +45,19 @@ namespace MyInventory.Model
 	}
 	
 	public class LabelLayout : ObservableObject {
-		// The space on top and bottom of the barcode
-		// in relation to the entire thing being 1
 		public LabelLayout(){
 			spacingSize = 0.05;
-			font = "sans 5";
+			textSize = 0.15;
+			fontName = "Sans";
+			useBarcode = true;
+			useBarcodeText = true;
+			useDescription = true;
 		}
 		
+		// The space on top and bottom of the barcode
+		// in relation to the entire thing being 1
 		private double spacingSize;
+		[XmlElement("spacing-size")]
 		public double SpacingSize {
 			set {
 				SetNotifyProperty<double>(ref spacingSize,value,"SpacingSize");
@@ -61,13 +67,62 @@ namespace MyInventory.Model
 			}
 		}
 		
-		private string font;
-		public string Font {
+		// The size of one line of text
+		// in relation to the entire thing being 1
+		private double textSize;
+		[XmlElement("text-size")]
+		public double TextSize {
 			set {
-				SetNotifyProperty<string>(ref font,value,"Font");
+				SetNotifyProperty<double>(ref textSize,value,"TextSize");
 			}
 			get {
-				return font;
+				return textSize;
+			}
+		}
+		
+		private string fontName;
+		[XmlElement("font-name")]
+		public string FontName {
+			set {
+				SetNotifyProperty<string>(ref fontName,value,"FontName");
+			}
+			get {
+				return fontName;
+			}
+		}
+		
+		// Properties decribing what infomration is 
+		// rendered onto the label
+		private bool useDescription;
+		[XmlElement("use-description")]
+		public bool UseDescription {
+			set {
+				SetNotifyProperty<bool>(ref useDescription,value,"UseDescription");
+			}
+			get {
+				return useDescription;
+			}
+		}
+	
+		private bool useBarcode;
+		[XmlElement("use-barcode")]
+		public bool UseBarcode {
+			set {
+				SetNotifyProperty<bool>(ref useBarcode,value,"UseBarcode");
+			}
+			get {
+				return useBarcode;
+			}
+		}
+		
+		private bool useBarcodeText;
+		[XmlElement("use-barcode-text")]
+		public bool UseBarcodeText {
+			set {
+				SetNotifyProperty<bool>(ref useBarcodeText,value,"UseBarcodeText");
+			}
+			get {
+				return useBarcodeText;
 			}
 		}
 	}

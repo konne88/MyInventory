@@ -162,6 +162,7 @@ namespace MyInventory.GtkGui
 		{
 			this.settings = settings;
 			settings.PageLayout.PropertyChanged += OnLayoutChanged;
+			settings.LabelLayout.PropertyChanged += OnLayoutChanged;
 			UpdateSize();
 		}
 		
@@ -180,9 +181,6 @@ namespace MyInventory.GtkGui
 		protected override void OnExpose(object o, ExposeEventArgs args)
 		{
 			using(Cairo.Context cr = Gdk.CairoHelper.Create(GdkWindow)){
-				
-				Console.WriteLine();
-				
 				double x = 0;
 				double y = 0;
 				double w = Allocation.Width-settings.SectionWidth;

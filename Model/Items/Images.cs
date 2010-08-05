@@ -153,7 +153,7 @@ namespace MyInventory.Model
 		private string GetImagesPath(ImageState state){
 			string path = (state == ImageState.Modified)?
 				Inventory.Settings.ModifiedInventoryPath :
-				Inventory.Path;
+				Inventory.Settings.InventoryPath;
 			
 			path = Path.Combine(path, "items");
 			path = Path.Combine(path, ParentItem.Id.ToString());			
@@ -172,7 +172,7 @@ namespace MyInventory.Model
 		}
 		
 		private ImageState GetImageState(uint id){
-			ImageState[] states = {ImageState.Permanent,ImageState.Modified};
+			ImageState[] states = {ImageState.Modified,ImageState.Permanent};
 			
 			foreach(ImageState state in states){
 				string fullImage = GetFullImagePath(id,state);
@@ -272,7 +272,7 @@ namespace MyInventory.Model
 		}
 		
 		public Image Load(uint id)
-		{			
+		{
 			ImageState state = GetImageState(id);
 			
 			string fullImagePath = GetFullImagePath(id,state);

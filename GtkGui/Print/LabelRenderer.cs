@@ -50,6 +50,34 @@ namespace MyInventory.GtkGui {
 		: base(item,layout)
 		{}
 		
+		private string CalcFont(Model.LabelLayout ll,Layout layout,double heigth) {
+			// the idea of this function is, to go throuth all fontsizes
+			// and find an appropriate appriximation to the current screen size
+			// of the text.
+			// 
+			// for now this is done by simply testing all sizes until
+			// we find one larger than the one we need and return it
+			// This is inefficient and could be done much.
+			// better with a binary Search like algorythm
+			
+			int h = (int)(heigth*ll.TextSize);
+			int sizeH;  // the heigth of the currently tried size
+			int lw;         // not needed
+			int size = 0;
+			Layout l = layout.Copy();
+			l.SetText ("f");        // some text to get the height of
+			
+			while(true){
+				++size;
+				l.FontDescription = FontDescription.FromString(ll.FontName+" "+size);
+				l.GetPixelSize(out lw, out sizeH);
+				// return the size
+				if(sizeH > h){
+   		        	return ll.FontName+" "+size;
+				}
+			}
+		}
+
 		public virtual void Render(Cairo.Context cr, Layout layout, double x, double y, double w, double h)
 		{
 			cr.Save();
@@ -66,36 +94,42 @@ namespace MyInventory.GtkGui {
 			string idString = Id.ToString("0000000000");
 			
 			// basic text stuff
-			layout.FontDescription = FontDescription.FromString(Layout.Font);
+			layout.FontDescription = FontDescription.FromString(CalcFont(Layout,layout,h));
 			layout.Width = (int)(w*Scale.PangoScale);
 			layout.Alignment = Alignment.Center;
 			
 			// draw the description
-			int descH;
-			Layout descLayout = layout.Copy();
-			descLayout.SetText (Description);
-			descLayout.GetPixelSize(out lw, out descH);
-            layout.Ellipsize = EllipsizeMode.Middle;
-			layout.Justify = true;
-			cr.Color = new Cairo.Color(0, 0, 0);
-			Pango.CairoHelper.ShowLayout (cr, descLayout);
-			
-			// draw the barcode	text
-			int codeH;
-			Layout codeLayout = layout.Copy();
-			codeLayout.SetText (prefix+idString);
-			codeLayout.GetPixelSize(out lw, out codeH);
-            cr.MoveTo(0,h-(double)codeH);
-			cr.Color = new Cairo.Color(0, 0, 0);
-			Pango.CairoHelper.ShowLayout (cr, codeLayout);
+			int descH = 0;
+			if(Layout.UseDescription){
+				Layout descLayout = layout.Copy();
+				descLayout.SetText (Description);
+				descLayout.GetPixelSize(out lw, out descH);
+	            layout.Ellipsize = EllipsizeMode.Middle;
+				layout.Justify = true;
+				cr.Color = new Cairo.Color(0, 0, 0);
+				Pango.CairoHelper.ShowLayout (cr, descLayout);
+			}
 
+			// draw the barcode	text
+			int codeH = 0;
+			if(Layout.UseBarcodeText){
+				Layout codeLayout = layout.Copy();
+				codeLayout.SetText (prefix+idString);
+				codeLayout.GetPixelSize(out lw, out codeH);
+	            cr.MoveTo(0,h-(double)codeH);
+				cr.Color = new Cairo.Color(0, 0, 0);
+				Pango.CairoHelper.ShowLayout (cr, codeLayout);
+			}
+			
 			// draw the barcode	
-			double barcodeH = h-((double)codeH+(double)descH+Layout.SpacingSize*2);
-			if(barcodeH>0){
-				IBarcode bc = new Code128();
-				bc.WriteString(prefix+idString);
-				bc.WriteEnd();
-				RenderBarcode(bc,cr,0,descH+Layout.SpacingSize,w,barcodeH);
+			if(Layout.UseBarcode){
+				double barcodeH = h-((double)codeH+(double)descH+Layout.SpacingSize*2);
+				if(barcodeH>0){
+					IBarcode bc = new Code128();
+					bc.WriteString(prefix+idString);
+					bc.WriteEnd();
+					RenderBarcode(bc,cr,0,descH+Layout.SpacingSize,w,barcodeH);
+				}
 			}
 			cr.Restore();
 		}

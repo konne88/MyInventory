@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using System.Xml.Serialization;
 
 namespace MyInventory.Model
 {
@@ -19,13 +20,14 @@ namespace MyInventory.Model
 		public PageLayout() {
 			paddingX = 3;
 			paddingY = 3;
-			labelRepeatX = 2;
-			labelRepeatY = 4;
+			labelRepeatX = 6;
+			labelRepeatY = 12;
 			labelWidth = 2.5*25.4;
 			labelHeight = 1.25*25.4;
 		}
 		
 		private double paddingX;
+		[XmlElement("padding-x")]
 		public double PaddingX {
 			set {
 				SetNotifyProperty<double>(ref paddingX,value,"PaddingX");
@@ -34,7 +36,9 @@ namespace MyInventory.Model
 				return paddingX;
 			}
 		}
+		
 		private double paddingY;
+		[XmlElement("padding-y")]
 		public double PaddingY {
 			set {
 				SetNotifyProperty<double>(ref paddingY,value,"PaddingY");
@@ -44,6 +48,7 @@ namespace MyInventory.Model
 			}
 		}
 		private int labelRepeatX;
+		[XmlElement("label-repeat-x")]
 		public int LabelRepeatX {
 			set {
 				SetNotifyProperty<int>(ref labelRepeatX,value,"LabelRepeatX");
@@ -54,6 +59,7 @@ namespace MyInventory.Model
 			}
 		}
 		private int labelRepeatY;
+		[XmlElement("label-repeat-y")]
 		public int LabelRepeatY {
 			set {
 				SetNotifyProperty<int>(ref labelRepeatY,value,"LabelRepeatY");
@@ -64,6 +70,7 @@ namespace MyInventory.Model
 			}
 		}
 		private double labelWidth;
+		[XmlElement("label-width")]
 		public double LabelWidth {
 			set {
 				SetNotifyProperty<double>(ref labelWidth,value,"LabelWidth");
@@ -73,6 +80,7 @@ namespace MyInventory.Model
 			}
 		}		
 		private double labelHeight;
+		[XmlElement("label-height")]
 		public double LabelHeight {
 			set {
 				SetNotifyProperty<double>(ref labelHeight,value,"LabelHeight");
@@ -81,6 +89,7 @@ namespace MyInventory.Model
 				return labelHeight;
 			}
 		}
+		[XmlIgnore]
 		public int LabelsPerPage {
 			get {
 				return LabelRepeatX*LabelRepeatY;

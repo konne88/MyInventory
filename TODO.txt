@@ -2,15 +2,15 @@ Bugs
 - Fix bug in the tagsview, is not location which is weird
   Deleting the last childitem of a tag, doesn't remove the little folding thing ">" from the parent
 - The bug in items poped up again where the filtering doesn't work for some weird reason
-- Hide the Items bar in the beginning
-- Deleting item doesn't remove the image of that item.
+  Select the 400GB HD and type into the filter "xz"
 
 Feature Enhancements
-- Make the printing of labels work
-- Rethink on how the adding for locations and tags should work
+- Rethink on how the adding for locations and tags should work / revision control
 - Open files
 
 Fixed Problems
+- Make the printing of labels work
+- Hide the Items bar in the beginning
 - Check to see if the git repo is in tact
 - Add "remove image" action
 - Make tags work properly
@@ -19,3 +19,5 @@ Fixed Problems
  - Removing tags needs to be written
  - Sync item view with tags
 - Adding image / removing it and then adding a new image will use the just deleted image
+- Deleting item doesn't remove the image of that item.
+  Once a new image is created, the old one is used

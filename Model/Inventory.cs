@@ -32,9 +32,9 @@ namespace MyInventory.Model
 	/// <summary>
 	public class Inventory
 	{
-		public Inventory(string path, Settings settings) {
-			Path = path;
+		public Inventory(Settings settings) {
 			Settings = settings;
+			Settings.CleanModifiedInventory();
 			Tags = new Tags(this);
 			Items = new Items(this);
 			Locations = new Locations(this);
@@ -43,7 +43,6 @@ namespace MyInventory.Model
 		public readonly Items Items;
 		public readonly Tags Tags;
 		public readonly Locations Locations;
-		public readonly string Path;
 		public readonly Settings Settings;
 		
 		public void Serialize(XmlWriter writer) {
@@ -70,13 +69,13 @@ namespace MyInventory.Model
 		public void Save() {
 			// save xml
 			
-			Console.WriteLine(Path);
-			if(! Directory.Exists(Path)) Directory.CreateDirectory(Path);
+			Console.WriteLine(Settings.InventoryPath);
+			if(! Directory.Exists(Settings.InventoryPath)) Directory.CreateDirectory(Settings.InventoryPath);
 			
 			XmlWriterSettings settings = new XmlWriterSettings();
 			settings.Indent = true;
 			
-			XmlWriter writer = XmlWriter.Create(System.IO.Path.Combine(Path,"inventory.xml"),settings);
+			XmlWriter writer = XmlWriter.Create(System.IO.Path.Combine(Settings.InventoryPath,"inventory.xml"),settings);
 			writer.WriteStartDocument();
 			Serialize(writer);
 			writer.WriteEndDocument();
@@ -90,9 +89,9 @@ namespace MyInventory.Model
 			//_path = oldPath;
 		}
 		
-		static public Inventory Load(string path, Settings settings) {
-			Inventory inventory = new Inventory(path,settings);
-			String invFile = System.IO.Path.Combine(path,"inventory.xml");
+		static public Inventory Load(Settings settings) {
+			Inventory inventory = new Inventory(settings);
+			String invFile = System.IO.Path.Combine(settings.InventoryPath,"inventory.xml");
 			
 			if(File.Exists(invFile)){
 				XPathDocument doc = new XPathDocument(invFile);

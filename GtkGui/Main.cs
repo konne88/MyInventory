@@ -28,14 +28,8 @@ namespace MyInventory.GtkGui
 	    {
 			Gtk.Application.Init ();
 			
-			// get the home folder
-			String path = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-			path = Path.Combine(path,".my_inventory");
-			path = Path.Combine(path,"inventory");
-			
-			Console.WriteLine("Loading the inventory from the path '"+path+"'");
-			
-			Inventory inv = Inventory.Load(path,new GtkSettings());
+			GtkSettings settings = GtkSettings.Load();
+			Inventory inv = Inventory.Load(settings);
 	
 			Window w = new Window (inv);
 			w.ShowAll ();

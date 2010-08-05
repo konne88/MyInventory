@@ -38,6 +38,19 @@ namespace MyInventory.GtkGui {
 		: base(builder.GetRawObject("printDialog"))
 		{
 			builder.Autoconnect (this);
+			
+			pagePaddingX.ValueChanged += OnLayoutChanged;
+			pagePaddingY.ValueChanged += OnLayoutChanged;
+			labelRepeatX.ValueChanged += OnLayoutChanged;
+			labelRepeatY.ValueChanged += OnLayoutChanged;
+			labelWidth.ValueChanged += OnLayoutChanged;
+			labelHeight.ValueChanged += OnLayoutChanged;
+			useLabelDescription.Clicked += OnLayoutChanged;
+			useLabelBarcode.Clicked += OnLayoutChanged;
+			useLabelBarcodeText.Clicked += OnLayoutChanged;
+			labelFont.FontSet += OnLayoutChanged;
+
+			DeleteEvent += OnWindowDelete;
 		}
 		
         public PrintDialog(Inventory inv, UIManager uiManager)
@@ -47,19 +60,14 @@ namespace MyInventory.GtkGui {
 			
 			pagePreview = new PagePreview( (GtkSettings)inv.Settings);
 			pagePreviewBox.Add(pagePreview);
-
+			
 			labelPreview = new LabelPreview( (GtkSettings)inv.Settings );
 			labelPreviewBox.Add(labelPreview);
 			
+			labelFont.ShowSize = false;
+			
 			Inventory.Settings.LabelLayout.PropertyChanged += OnLayoutPropertyChanged;
 			Inventory.Settings.PageLayout.PropertyChanged += OnLayoutPropertyChanged;
-			
-			pagePaddingX.ValueChanged += OnLayoutChanged;
-			pagePaddingY.ValueChanged += OnLayoutChanged;
-			labelRepeatX.ValueChanged += OnLayoutChanged;
-			labelRepeatY.ValueChanged += OnLayoutChanged;
-			labelWidth.ValueChanged += OnLayoutChanged;
-			labelHeight.ValueChanged += OnLayoutChanged;
 			
 			UpdateLayoutWidgets();
 		}
@@ -71,6 +79,12 @@ namespace MyInventory.GtkGui {
 			labelWidth.Value = Inventory.Settings.PageLayout.LabelWidth;
 			labelRepeatX.Value = (double)Inventory.Settings.PageLayout.LabelRepeatX;
 			labelRepeatY.Value = (double)Inventory.Settings.PageLayout.LabelRepeatY;
+			
+			useLabelBarcode.Active = Inventory.Settings.LabelLayout.UseBarcode;
+			useLabelBarcodeText.Active = Inventory.Settings.LabelLayout.UseBarcodeText;
+			useLabelDescription.Active = Inventory.Settings.LabelLayout.UseDescription;
+			// add an unused number so that the font is visible in the dialog
+			labelFont.FontName = Inventory.Settings.LabelLayout.FontName+" 12";
 		}
 		
 		private void OnLayoutPropertyChanged(object s, PropertyChangedEventArgs args){
@@ -90,8 +104,22 @@ namespace MyInventory.GtkGui {
 				Inventory.Settings.PageLayout.LabelWidth = labelWidth.Value;
 			else if(object.ReferenceEquals(sender,labelHeight))
 				Inventory.Settings.PageLayout.LabelHeight = labelHeight.Value;
+			else if(object.ReferenceEquals(sender,useLabelDescription))
+				Inventory.Settings.LabelLayout.UseDescription = useLabelDescription.Active;
+			else if(object.ReferenceEquals(sender,useLabelBarcode))
+				Inventory.Settings.LabelLayout.UseBarcode = useLabelBarcode.Active;
+			else if(object.ReferenceEquals(sender,useLabelBarcodeText))
+				Inventory.Settings.LabelLayout.UseBarcodeText = useLabelBarcodeText.Active;
+			else if(object.ReferenceEquals(sender,labelFont))
+				// remove the number from the end
+				Inventory.Settings.LabelLayout.FontName = labelFont.FontName.Split(' ')[0];
 		}
-		
+
+		/* These functions are used by glade that gets them using reflection.
+         * Therefore the warning that the function is not used is disabled.
+         */
+        #pragma warning disable 169
+
 		private void OnUnitOutput(object o, OutputArgs args){
 			SpinButton spin = (SpinButton) o;
 			string text = spin.Value.ToString()+"mm";
@@ -110,22 +138,8 @@ namespace MyInventory.GtkGui {
 			args.RetVal = 1;
 		}
 		
-		private PageLayout GetPageLayout() {
-			// calc page layout here
-			PageLayout pageLayout = new PageLayout();
-			/*pageLayout.PaddingX = pagePaddingX.Value;
-			pageLayout.PaddingY = pagePaddingY.Value;
-			pageLayout.LabelRepeatX = labelRepeatX.ValueAsInt;
-			pageLayout.LabelRepeatY = labelRepeatY.ValueAsInt;
-			pageLayout.LabelWidth = labelWidth.Value;
-			pageLayout.LabelHeight = labelHeight.Value;*/
-			return pageLayout;
-		}
-		
-		private LabelLayout GetLabelLayout() {
-			// calc label layout here
-			LabelLayout labelLayout = new LabelLayout();
-			return labelLayout;
+		private void OnCancel(object sender, EventArgs arguments){			
+			this.HideAll();
 		}
 		
 		private void OnPrint(object sender, EventArgs arguments){	
@@ -174,10 +188,16 @@ namespace MyInventory.GtkGui {
 			printing.Run (PrintOperationAction.PrintDialog, (Gtk.Window)this.Toplevel);
 		}
 		
+		#pragma warning restore
+		
+		private void OnWindowDelete (object o, DeleteEventArgs args) 
+		{
+			this.HideAll();
+			args.RetVal = true;
+		}
+		
 		private readonly Inventory Inventory;
 		
-		[Builder.Object] private Box printSettings;
-		[Builder.Object] private Button PrintButton;
 		[Builder.Object] private Alignment labelPreviewBox;
 		[Builder.Object] private Alignment pagePreviewBox;
 		                 private LabelPreview labelPreview;
@@ -189,5 +209,10 @@ namespace MyInventory.GtkGui {
 		[Builder.Object] private SpinButton labelRepeatY;
 		[Builder.Object] private SpinButton labelWidth;
 		[Builder.Object] private SpinButton labelHeight;
-    }
+		
+		[Builder.Object] private FontButton labelFont;
+		[Builder.Object] private CheckButton useLabelDescription;
+		[Builder.Object] private CheckButton useLabelBarcode;
+		[Builder.Object] private CheckButton useLabelBarcodeText;
+	}
 }

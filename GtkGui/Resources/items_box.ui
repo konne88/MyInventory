@@ -7,7 +7,6 @@
     <child>
       <object class="GtkVBox" id="itemsViewBox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkScrolledWindow" id="itemsViewScroll">
             <property name="visible">True</property>

@@ -30,9 +30,7 @@ namespace MyInventory.GtkGui
 	{
 		public ItemTagsModel(IEnumerable<ItemTag> itemTags)
 		: base(itemTags)
-		{
-			ItemTags = itemTags;
-		}
+		{}
 		
 		protected override IEnumerable<ItemTag> GetCollection(object node){
 			return null;
@@ -75,7 +73,5 @@ namespace MyInventory.GtkGui
 				return 2;
 			}
 		}
-		
-		private readonly IEnumerable<ItemTag> ItemTags;
 	}
 }

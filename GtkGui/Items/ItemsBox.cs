@@ -95,6 +95,8 @@ namespace MyInventory.GtkGui {
 			// create the popups
 			uiManager.AddUiFromResource("items_box_menues.xml");
 			itemPopup = (Menu) uiManager.GetWidget("/itemPopup");
+			
+			itemCreateBox.CreateItem();
         }
 		
 		public void SelectItem(Model.Item item){

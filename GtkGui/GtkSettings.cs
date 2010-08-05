@@ -18,9 +18,12 @@
 
 using System;
 using MyInventory.Model;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace MyInventory.GtkGui
 {	
+	[XmlRoot("gtk-settings")]
 	public class GtkSettings : Settings
 	{
 		public GtkSettings() {
@@ -31,19 +34,49 @@ namespace MyInventory.GtkGui
 			MemoryImage = typeof(GtkMemoryImage);
 		}
 		
-		public readonly Gdk.Color EntryDescriptionColor = new Gdk.Color (0xAA,0xAA,0xAA);
+		// no signal will imply that properties of this class have changed
+		// therefore you should not change them during application runtime
+		// changes will only apply after a restart
+		[XmlIgnore]	// is unfortunately not nicely serializable
+		public Gdk.Color EntryDescriptionColor = new Gdk.Color (0xAA,0xAA,0xAA);
 		
-		public readonly Gdk.Pixbuf ProductIcon;
-		public readonly Gdk.Pixbuf RoomIcon;
-		public readonly Gdk.Pixbuf EstateIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf ProductIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf RoomIcon;
+		[XmlIgnore]
+		public Gdk.Pixbuf EstateIcon;
 		
 		// print preview layout
-		public readonly double PaperWidth = 65; 	// mm
-		public readonly double SectionWidth = 80;
-		public readonly double SectionHeight = 40;
-		public readonly double SectionPadding = 10;
-		public readonly double LabelPadding = 2;
-		public readonly double PageHeightPerWidth = Math.Sqrt(2);
-		public readonly double LabelHeightPerWidth = 0.5;
+		[XmlElement("paper-width")]
+		public double PaperWidth = 65; 	// mm
+		[XmlElement("section-width")]
+		public double SectionWidth = 80;
+		[XmlElement("section-height")]
+		public double SectionHeight = 40;
+		[XmlElement("section-padding")]
+		public double SectionPadding = 10;
+		[XmlElement("label-padding")]
+		public double LabelPadding = 2;
+		[XmlElement("page-height-per-width")]
+		public double PageHeightPerWidth = Math.Sqrt(2);
+		[XmlElement("label-height-per-width")]
+		public double LabelHeightPerWidth = 0.5;
+		
+		static new public GtkSettings Load() {
+			string path = GetSettingsPath();
+			
+			GtkSettings settings;
+			
+			if(File.Exists(path)){
+				XmlSerializer serializer = new XmlSerializer(typeof(GtkSettings));
+				Stream stream = new FileStream(path, FileMode.Open);
+				settings = (GtkSettings)serializer.Deserialize(stream);
+     			stream.Close();
+			}
+			else settings = new GtkSettings();
+			
+			return settings;
+		}
 	}
 }

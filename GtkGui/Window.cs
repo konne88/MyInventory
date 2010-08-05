@@ -90,10 +90,16 @@ namespace MyInventory.GtkGui {
 			tagsTabImage.Pixbuf = new Gdk.Pixbuf(null,"tag.png");
         }
 		
+		private void End(){
+			Inventory.Settings.Save();
+			Application.Quit();
+		}
+		
 		private void OnSaveInventory(object o, EventArgs a) 
 		{
+			Inventory.Settings.Save();
 			Inventory.Save();
-			Console.WriteLine("Save");
+			Console.WriteLine("Saved");
 		}
 
 		private void OnPrintLabels(object o, EventArgs a) 
@@ -103,12 +109,10 @@ namespace MyInventory.GtkGui {
 				printDialog = new PrintDialog(Inventory, uiManager);
 			}
 			printDialog.ShowAll();
-			Console.WriteLine("Print");
 		}
 		
 		private void OnQuit(object o, EventArgs args){
-			Console.WriteLine("Quit");
-			Application.Quit();
+			End();
 		}
 		
 		private void OnShowLocationsBox(object sender, ShowMeEventArgs args){
@@ -129,8 +133,7 @@ namespace MyInventory.GtkGui {
 		
 		private void OnWindowDelete (object o, DeleteEventArgs args) 
 		{
-			Console.WriteLine("QUIT");
-			Application.Quit();
+			End();
 			args.RetVal = true;
 		}
 		
