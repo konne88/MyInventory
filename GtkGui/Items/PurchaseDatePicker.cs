@@ -74,8 +74,6 @@ namespace MyInventory.GtkGui {
 			window.GetPosition(out win.X, out win.Y);
 			GetSize(out popup.Width, out popup.Height);
 			
-			Console.WriteLine(win.Y);
-			
 			popup.X = win.X + widget.X + widget.Width - popup.Width;
 			popup.Y = win.Y + widget.Y + widget.Height;
 			
@@ -108,9 +106,6 @@ namespace MyInventory.GtkGui {
 		}
 		
 		private void OnPurchaseDateChanged(object sender, EventArgs args){
-			
-			Console.WriteLine("DATE PICKED");
-			
 			if(object.ReferenceEquals(sender,purchaseDateAvailable)){
 				if(purchaseDateAvailable.Active){
 					purchaseDateCalendar.Sensitive = true;

@@ -88,8 +88,6 @@ namespace MyInventory.Model
 		public uint GetPrevUnusedId(uint current){
 			uint id = current-1;
 			while(IsIdUsed(id)) --id;
-			Console.WriteLine("=");
-			Console.WriteLine(id);
 			return (id==0)?current:id;
 		}
 		

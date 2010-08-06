@@ -90,9 +90,20 @@ namespace MyInventory.GtkGui {
 			tagsTabImage.Pixbuf = ((GtkSettings)Inventory.Settings).TagsTabIcon;
 			
 			this.Icon = ((GtkSettings)Inventory.Settings).WindowIcon;
+			this.Resize(((GtkSettings)Inventory.Settings).MainWindowWidth,((GtkSettings)Inventory.Settings).MainWindowHeight);
         }
 		
 		private void End(){
+			/*new MessageDialog(this,DialogFlags.Modal,MessageType.Question,
+                                  GTK_MESSAGE_ERROR,
+                                  GTK_BUTTONS_CLOSE,
+                                  "Error loading file '%s': %s",
+                                  filename, g_strerror (errno));
+ gtk_dialog_run (GTK_DIALOG (dialog));
+ gtk_widget_destroy (dialog);
+
+			
+			*/
 			Inventory.Settings.Save();
 			Application.Quit();
 		}

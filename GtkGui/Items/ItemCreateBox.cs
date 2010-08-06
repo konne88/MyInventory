@@ -29,7 +29,6 @@ namespace MyInventory.GtkGui {
 			Items = items;
 		}
 		protected override void OnValueChanged(){
-			Console.WriteLine(Value);
 			uint id = (uint)Value;
 			if(Items.IsIdUsed(id)){
 				if(id < LastId)
@@ -85,8 +84,6 @@ namespace MyInventory.GtkGui {
 			
 			createItemId.Value = Items.UnusedId;
 			createItemType.Active = 0;
-			
-			Console.WriteLine("Create Item");
 		}
 		
 		/* These functions are used by glade that gets them using reflection.
@@ -123,8 +120,6 @@ namespace MyInventory.GtkGui {
 			Model.Item item = Items.New(id,type);
 			
 			Items.Positions.Add(item);
-			
-			Console.WriteLine("Create Item Done");
 		}
 		#pragma warning restore
 		

@@ -60,6 +60,11 @@ namespace MyInventory.GtkGui
 		[XmlIgnore]
 		public Gdk.Pixbuf WindowIcon;
 		
+		[XmlElement("main-window-width")]
+		public int MainWindowWidth = 800;
+		[XmlElement("main-window-height")]
+		public int MainWindowHeight = 600;
+		
 		// print preview layout
 		[XmlElement("paper-width")]
 		public double PaperWidth = 65; 	// mm

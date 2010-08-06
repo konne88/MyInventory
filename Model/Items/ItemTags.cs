@@ -31,11 +31,6 @@ namespace MyInventory.Model
 	{
 		public ItemTags(Item item){
 			_item = item;
-			PropertyChanged += IChanged;
-		}
-		
-		private void IChanged(Object sender, PropertyChangedEventArgs e){
-			Console.WriteLine("Some Tag Event on the List raised again");
 		}
 		
 		public ItemTag[] GetUnusedTags(ItemTag ignoreTag){

@@ -68,8 +68,6 @@ namespace MyInventory.Model
 		
 		public void Save() {
 			// save xml
-			
-			Console.WriteLine(Settings.InventoryPath);
 			if(! Directory.Exists(Settings.InventoryPath)) Directory.CreateDirectory(Settings.InventoryPath);
 			
 			XmlWriterSettings settings = new XmlWriterSettings();

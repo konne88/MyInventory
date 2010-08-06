@@ -1,23 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Model/Settings.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GtkGui/Window.cs" ctype="Workbench">
     <Files>
-      <File FileName="GtkGui/Window.cs" Line="97" Column="3" />
-      <File FileName="GtkGui/Items/GtkMemoryImage.cs" Line="1" Column="1" />
-      <File FileName="GtkGui/Items/ItemsBox.cs" Line="88" Column="45" />
-      <File FileName="Model/Items/Images.cs" Line="277" Column="4" />
-      <File FileName="Model/Inventory.cs" Line="36" Column="24" />
-      <File FileName="Model/Settings.cs" Line="69" Column="42" />
+      <File FileName="GtkGui/GtkSettings.cs" Line="1" Column="1" />
+      <File FileName="GtkGui/Window.cs" Line="106" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="GtkGui" expanded="True">
-            <Node name="Items" expanded="True" />
+            <Node name="Window.cs" selected="True" />
           </Node>
           <Node name="Model" expanded="True">
+            <Node name="Basics" expanded="True" />
             <Node name="Items" expanded="True" />
-            <Node name="Settings.cs" selected="True" />
           </Node>
         </State>
       </Pad>

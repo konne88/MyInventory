@@ -161,10 +161,6 @@ namespace MyInventory.Model
 		
 		
 		private void OnItemTagChanged(Object sender, PropertyChangedEventArgs e){
-		
-			
-			Console.WriteLine("Some Tag Event on the List");
-			
 			NotifyPropertyChanged("Tags");
 		}
 		
